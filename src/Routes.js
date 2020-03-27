@@ -22,11 +22,11 @@ import RouteNames from './RouteNames';
 // import AuthWelcome from './screens/Auth/AuthWelcome';
 // import AuthLogin from './screens/Auth/AuthLogin';
 import Browse from './screens/Browse';
-// import Explore from './screens/Explore';
-// import Library from './screens/Library';
+import Explore from './screens/Explore';
+import Library from './screens/Library';
 // import Settings from './screens/Settings';
-// import MoviesListScreen from './screens/Movie/MoviesListScreen';
-// import MovieDetailsScreen from './screens/Movie/MovieDetailsScreen';
+import MoviesListScreen from './screens/Movie/MoviesListScreen';
+import MovieDetailsScreen from './screens/Movie/MovieDetailsScreen';
 
 // import NavbarWrapper from './components/NavbarWrapper';
 // import NavbarButtonWrapper from './components/NavbarButtonWrapper';
@@ -39,11 +39,6 @@ import Browse from './screens/Browse';
 import {getFontStyleObject} from './utils/font';
 // import {fromRightWithFade} from './utils/navigation';
 import Theme from './Theme';
-// const TabNames = {
-//   browse: 'Browse',
-//   explore: 'Explore',
-//   library: 'Library',
-// };
 
 // const defaultHeaderObject = {
 //   header: props => <Header scene={props.scene} />,
@@ -76,10 +71,29 @@ const TabNames = {
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 const BrowseStack = () => (
-  <Stack.Navigator>
+  <Stack.Navigator headerMode="none">
     <Stack.Screen name={'Browse.index'} component={Browse} />
+    <Stack.Screen
+      name={RouteNames.MovieListScreen}
+      component={MoviesListScreen}
+    />
+    <Stack.Screen
+      name={RouteNames.MovieDetailsScreen}
+      component={MovieDetailsScreen}
+    />
   </Stack.Navigator>
 );
+const LibraryStack = () => {
+  <Stack.Navigator headerMode="none">
+    {/* <Stack.Screen name={RouteNames.Settings} component={Settings} /> */}
+    <Stack.Screen name={RouteNames.MovieListScreen} component={Library} />
+    {/* <Stack.Screen
+      name={RouteNames.MovieDetailsScreen}
+      component={MovieDetailsScreen}
+    /> */}
+  </Stack.Navigator>;
+};
+
 // [RouteNames.MovieListScreen]: MoviesListScreen,
 // [RouteNames.MovieDetailsScreen]: MovieDetailsScreen
 
@@ -107,6 +121,27 @@ const BottomTabs = () => (
       //   ),
       // }}
     />
+    <Tab.Screen
+      name={TabNames.explore}
+      component={Explore}
+      // options={{
+      //   tabBarLabel: 'Home',
+      //   tabBarIcon: ({color, size}) => (
+      //     <Icon name="home" color={color} size={size} />
+      //   ),
+      // }}
+    />
+    <Tab.Screen
+      name={TabNames.library}
+      component={Library}
+      // options={{
+      //   tabBarLabel: 'Home',
+      //   tabBarIcon: ({color, size}) => (
+      //     <Icon name="home" color={color} size={size} />
+      //   ),
+      // }}
+    />
+
     {/* <Tab.Screen
       name="EventStack"
       component={EventStack}
@@ -131,13 +166,13 @@ const BottomTabs = () => (
 );
 
 const AuthStack = () => (
-  <Stack.Navigator>
+  <Stack.Navigator headerMode="none">
     <Stack.Screen name={RouteNames.AuthWelcome} component={AuthWelcome} />
     <Stack.Screen name={RouteNames.AuthLogin} component={AuthLogin} />
   </Stack.Navigator>
 );
 const HomeStack = () => (
-  <Stack.Navigator>
+  <Stack.Navigator headerMode="none">
     <Stack.Screen name={RouteNames.BottomTabs} component={BottomTabs} />
   </Stack.Navigator>
 );
@@ -271,15 +306,9 @@ const RootStack = ({user, loadUserIntoRedux}) => {
   return (
     <SafeAreaProvider>
       <NavigationContainer>
-        <Stack.Navigator>
+        <Stack.Navigator headerMode="none">
           {user ? (
-            <Stack.Screen
-              name={RouteNames.HomeStack}
-              component={HomeStack}
-              options={{
-                headerStyle: {height: 0},
-              }}
-            />
+            <Stack.Screen name={RouteNames.HomeStack} component={HomeStack} />
           ) : (
             <Stack.Screen name={RouteNames.AuthStack} component={AuthStack} />
           )}

@@ -17,6 +17,7 @@ class MoviePreview extends React.PureComponent {
 
   onPress = () => {
     const {navigation, movie} = this.props;
+    console.log(this.props.navigation);
     navigation.push(RouteNames.MovieDetailsScreen, {movie});
     // navigation.navigate(RouteNames.MovieDetailsScreen, { movie }, null, id);
   };

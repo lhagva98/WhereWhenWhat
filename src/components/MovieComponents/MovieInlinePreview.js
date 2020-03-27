@@ -15,7 +15,7 @@ class MovieInlinePreview extends React.Component {
 
   onPress = () => {
     const {navigation, movie} = this.props;
-    navigation.push(RouteNames.MovieDetailsScreen, {movie});
+    navigation.navigate(RouteNames.MovieDetailsScreen, {movie});
   };
 
   render() {

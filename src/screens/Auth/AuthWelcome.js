@@ -71,33 +71,32 @@ class AuthWelcome extends React.Component {
               Powered by The Movie Database
             </AppText>
           </View>
-
+          <View style={styles.buttonContainer}>
+            <AppButton
+              solid
+              toScale={true}
+              style={styles.button}
+              textStyle={styles.buttonText}
+              color={Theme.colors.success}
+              onPress={this.onLoginPress}>
+              Нэвтрэх
+            </AppButton>
+            <AppButton
+              solid
+              toScale={false}
+              style={styles.button}
+              textStyle={styles.buttonText}
+              color={Theme.colors.info}
+              onPress={this.onSignUpPress}>
+              Бүртгүүлэх
+            </AppButton>
+          </View>
           <AppButton
             onlyText
             style={styles.guestButton}
             color={Theme.gray.lighter}
             onPress={this.onGuestLoginPress}>
-            Continue as Guest
-          </AppButton>
-        </View>
-        <View style={styles.buttonContainer}>
-          <AppButton
-            solid
-            toScale={false}
-            style={styles.button}
-            textStyle={styles.buttonText}
-            color={Theme.colors.success}
-            onPress={this.onLoginPress}>
-            Log In
-          </AppButton>
-          <AppButton
-            solid
-            toScale={false}
-            style={styles.button}
-            textStyle={styles.buttonText}
-            color={Theme.colors.info}
-            onPress={this.onSignUpPress}>
-            Sign Up
+            Зочин эрхээр нэвтрэх
           </AppButton>
         </View>
 
@@ -139,8 +138,11 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     backgroundColor: '#000000',
+    padding: 25,
+    marginTop: 10,
   },
   button: {
+    height: 80,
     flex: 1,
   },
   buttonText: {
