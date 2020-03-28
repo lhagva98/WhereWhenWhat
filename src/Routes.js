@@ -17,6 +17,7 @@ import {
 import {stGetUser} from './utils/storage';
 import AuthWelcome from './screens/Auth/AuthWelcome';
 import AuthLogin from './screens/Auth/AuthLogin';
+import SignUp from './screens/Auth/SignUp';
 import RouteNames from './RouteNames';
 
 // import AuthWelcome from './screens/Auth/AuthWelcome';
@@ -169,6 +170,7 @@ const AuthStack = () => (
   <Stack.Navigator headerMode="none">
     <Stack.Screen name={RouteNames.AuthWelcome} component={AuthWelcome} />
     <Stack.Screen name={RouteNames.AuthLogin} component={AuthLogin} />
+    <Stack.Screen name={RouteNames.SignUp} component={SignUp} />
   </Stack.Navigator>
 );
 const HomeStack = () => (

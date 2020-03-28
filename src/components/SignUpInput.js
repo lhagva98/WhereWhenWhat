@@ -6,7 +6,7 @@ import {getFontStyleObject} from '../utils/font';
 import Theme from '../Theme';
 import Config from '../Config';
 
-class LoginInput extends React.PureComponent {
+class SignUpInput extends React.PureComponent {
   state = {focused: false};
 
   onFocus = () => {
@@ -22,7 +22,7 @@ class LoginInput extends React.PureComponent {
   };
 
   render() {
-    const {error, inputStyle, label, style, subtext, ...props} = this.props;
+    const {error, inputStyle, label, style, ...props} = this.props;
     const {focused} = this.state;
     return (
       <View style={[styles.container, style]}>
@@ -33,7 +33,6 @@ class LoginInput extends React.PureComponent {
             focused && styles.inputContainerFocused,
             error && styles.inputContainerError,
           ]}>
-          <View style={styles.icon}>{this.props.Icon}</View>
           <TextInput
             selectionColor={Theme.colors.textInputSelection}
             autoCorrect={false}
@@ -57,6 +56,7 @@ const styles = StyleSheet.create({
   label: {
     ...getFontStyleObject({weight: 'Bold'}),
     marginBottom: Theme.spacing.tiny,
+    fontSize: 16,
   },
   inputContainer: {
     borderRadius: 4,
@@ -87,13 +87,12 @@ const styles = StyleSheet.create({
   },
 });
 
-LoginInput.propTypes = {
+SignUpInput.propTypes = {
   error: PropTypes.bool,
   inputStyle: PropTypes.any,
   label: PropTypes.string,
   style: PropTypes.any,
   subtext: PropTypes.string,
-  Icon: PropTypes.object,
 };
 
-export default LoginInput;
+export default SignUpInput;

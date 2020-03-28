@@ -14,60 +14,54 @@ import {AppButton, PageSpinner} from '../../components/common';
 import AppToast from '../../components/AppToast';
 import LoginInput from '../../components/LoginInput';
 import * as Animatable from 'react-native-animatable';
-import TouchAble from '../../components/TouchAble';
 import {RESET_PASSWORD_URL} from '../../api/urls';
 import {safeOpenURL} from '../../utils/network';
 import RouteNames from '../../RouteNames';
 import Theme from '../../Theme';
-const zoomOut = {
-  0: {
-    opacity: 0,
-    scale: 0,
-  },
-  0.5: {
-    opacity: 0.5,
-    scale: 0.3,
-  },
-  1: {
-    opacity: 1,
-    scale: 1,
-  },
-};
+import Icon from 'react-native-vector-icons/FontAwesome5';
+import Validation from '../../utils/validators';
 class AuthLogin extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       username: '',
       password: '',
+      validation: {
+        username: {
+          isValid: true,
+          msg: '',
+        },
+        password: {
+          isValid: true,
+          msg: '',
+        },
+      },
     };
   }
   onToastRef = ref => (this.toast = ref);
   onForgotPress = () => safeOpenURL(RESET_PASSWORD_URL);
-  // onUsernameTextChange = text => this.props.loginUsernameChanged(text);
-  // onPasswordTextChange = text => this.props.loginPasswordChanged(text);
 
   onLoginPress = () => {
     const {navigation} = this.props;
-    this.props.loginUser({
-      username: this.state.username,
-      password: this.state.password,
-      showToast: this.showToast,
-      onSuccess: () => {
-        navigation.navigate(RouteNames.HomeStack);
-      },
-    });
+    const {username, password} = this.state;
+    const validation = Validation.loginForm(username, password);
+    this.setState({validation: validation});
+    if (validation.username.isValid && validation.password.isValid) {
+      this.props.loginUser({
+        username: this.state.username,
+        password: this.state.password,
+        showToast: this.showToast,
+        onSuccess: () => {
+          navigation.navigate(RouteNames.HomeStack);
+        },
+      });
+    }
   };
 
   showToast = message => this.toast.show(message, 2000);
 
   render() {
-    const {
-      loginUsername,
-      loginUsernameError,
-      loginPassword,
-      loginPasswordError,
-      loginIsLoading,
-    } = this.props;
+    const {loading} = this.props;
 
     return (
       <KeyboardAvoidingView
@@ -76,11 +70,6 @@ class AuthLogin extends React.Component {
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <View style={styles.contentContainer}>
             <View style={styles.logoContainer}>
-              <Animatable.Image
-                animation={zoomOut}
-                source={require('../../assets/img/logo.png')}
-                style={styles.logo}
-              />
               <View style={{flexDirection: 'row', paddingHorizontal: 0}}>
                 <View
                   style={{
@@ -139,10 +128,11 @@ class AuthLogin extends React.Component {
               </View>
             </View>
             <LoginInput
-              label="Username"
+              label="Нэвтрэх нэр"
               style={styles.input}
-              subtext={loginUsernameError}
-              error={loginUsernameError.length > 0}
+              Icon={<Icon name="user-tie" size={20} color="black" />}
+              subtext={this.state.validation.username.msg}
+              error={!this.state.validation.username.isValid}
               value={this.state.username}
               onChangeText={val => {
                 this.setState({username: val});
@@ -150,18 +140,19 @@ class AuthLogin extends React.Component {
             />
             <LoginInput
               secureTextEntry
-              label="Password"
+              label="Нууц үг"
+              Icon={<Icon name="lock" size={20} color="black" />}
               textContentType="password"
               style={styles.input}
-              subtext={loginPasswordError}
-              error={loginPasswordError.length > 0}
+              subtext={this.state.validation.password.msg}
+              error={!this.state.validation.password.isValid}
               value={this.state.password}
               onChangeText={val => {
                 this.setState({password: val});
               }}
             />
             <AppButton style={styles.loginButton} onPress={this.onLoginPress}>
-              LOG IN
+              НЭВТРЭХ
             </AppButton>
             <AppButton
               onlyText
@@ -174,7 +165,7 @@ class AuthLogin extends React.Component {
         </TouchableWithoutFeedback>
 
         <AppToast refProp={this.onToastRef} />
-        <PageSpinner visible={loginIsLoading} />
+        <PageSpinner visible={loading} />
       </KeyboardAvoidingView>
     );
   }

@@ -7,12 +7,9 @@ import PageSpinner from '../../components/common/PageSpinner';
 import ImageOpacityCycler from '../../components/ImageOpacityCycler';
 import {AppButton, AppText} from '../../components/common';
 import withDelayedLoading from '../../components/hoc/withDelayedLoading';
-import {clearLoginFields, createGuestSession} from '../../actions';
-import {safeOpenURL} from '../../utils/network';
-import {REGISTRATION_URL} from '../../api/urls';
+import {createGuest} from '../../actions';
 import RouteNames from '../../RouteNames';
 import Theme from '../../Theme';
-
 const WELCOME_IMAGES = [
   require('../../assets/img/welcome_background_images/jurassic_world.jpg'),
   require('../../assets/img/welcome_background_images/spider_man.jpg'),
@@ -34,12 +31,11 @@ class AuthWelcome extends React.Component {
 
   onToastRef = ref => (this.toast = ref);
   onLoginPress = () => this.props.navigation.navigate(RouteNames.AuthLogin);
-  onSignUpPress = () => safeOpenURL(REGISTRATION_URL);
+  onSignUpPress = () => this.props.navigation.navigate(RouteNames.SignUp);
   onScreenFocused = () => this.props.clearLoginFields();
   onGuestLoginPress = () => {
-    const {createGuestSession, navigation} = this.props;
-
-    createGuestSession({
+    const {createGuest, navigation} = this.props;
+    createGuest({
       showToast: this.showToast,
       onSuccess: () => navigation.navigate(RouteNames.HomeStack),
     });
@@ -101,7 +97,7 @@ class AuthWelcome extends React.Component {
         </View>
 
         <AppToast refProp={this.onToastRef} />
-        <PageSpinner visible={isGuestSessionCreating} />
+        <PageSpinner visible={this.props.loading} />
       </View>
     );
   }
@@ -151,10 +147,10 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = ({auth}) => {
-  const {isGuestSessionCreating} = auth;
-  return {isGuestSessionCreating};
+  const {loading} = auth;
+  return {loading};
 };
 
-export default connect(mapStateToProps, {createGuestSession, clearLoginFields})(
+export default connect(mapStateToProps, {createGuest})(
   withDelayedLoading(AuthWelcome),
 );
