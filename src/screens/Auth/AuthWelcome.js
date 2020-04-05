@@ -2,7 +2,6 @@ import React from 'react';
 import {connect} from 'react-redux';
 import FastImage from 'react-native-fast-image';
 import {View, StyleSheet} from 'react-native';
-import AppToast from '../../components/AppToast';
 import PageSpinner from '../../components/common/PageSpinner';
 import ImageOpacityCycler from '../../components/ImageOpacityCycler';
 import {AppButton, AppText} from '../../components/common';
@@ -29,23 +28,17 @@ class AuthWelcome extends React.Component {
     });
   }
 
-  onToastRef = ref => (this.toast = ref);
   onLoginPress = () => this.props.navigation.navigate(RouteNames.AuthLogin);
   onSignUpPress = () => this.props.navigation.navigate(RouteNames.SignUp);
   onScreenFocused = () => this.props.clearLoginFields();
   onGuestLoginPress = () => {
     const {createGuest, navigation} = this.props;
     createGuest({
-      showToast: this.showToast,
       onSuccess: () => navigation.navigate(RouteNames.HomeStack),
     });
   };
 
-  showToast = message => this.toast.show(message, 2000);
-
   render() {
-    const {isGuestSessionCreating} = this.props;
-
     return (
       <View style={styles.container}>
         <ImageOpacityCycler
@@ -96,7 +89,6 @@ class AuthWelcome extends React.Component {
           </AppButton>
         </View>
 
-        <AppToast refProp={this.onToastRef} />
         <PageSpinner visible={this.props.loading} />
       </View>
     );
@@ -142,7 +134,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   buttonText: {
-    fontSize: 26,
+    fontSize: 22,
   },
 });
 

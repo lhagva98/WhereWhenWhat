@@ -11,7 +11,6 @@ import {
 import {loginUser} from '../../actions';
 import isIOS from '../../utils/isIOS';
 import {AppButton, PageSpinner} from '../../components/common';
-import AppToast from '../../components/AppToast';
 import LoginInput from '../../components/LoginInput';
 import * as Animatable from 'react-native-animatable';
 import {RESET_PASSWORD_URL} from '../../api/urls';
@@ -38,27 +37,23 @@ class AuthLogin extends React.Component {
       },
     };
   }
-  onToastRef = ref => (this.toast = ref);
   onForgotPress = () => safeOpenURL(RESET_PASSWORD_URL);
 
   onLoginPress = () => {
     const {navigation} = this.props;
     const {username, password} = this.state;
-    const validation = Validation.loginForm(username, password);
-    this.setState({validation: validation});
-    if (validation.username.isValid && validation.password.isValid) {
+    const validate = Validation.loginForm(username, password);
+    this.setState({validation: validate});
+    if (validate.username.isValid && validate.password.isValid) {
       this.props.loginUser({
         username: this.state.username,
         password: this.state.password,
-        showToast: this.showToast,
         onSuccess: () => {
           navigation.navigate(RouteNames.HomeStack);
         },
       });
     }
   };
-
-  showToast = message => this.toast.show(message, 2000);
 
   render() {
     const {loading} = this.props;
@@ -131,6 +126,7 @@ class AuthLogin extends React.Component {
               label="Нэвтрэх нэр"
               style={styles.input}
               Icon={<Icon name="user-tie" size={20} color="black" />}
+              textContentType="emailAddress"
               subtext={this.state.validation.username.msg}
               error={!this.state.validation.username.isValid}
               value={this.state.username}
@@ -164,7 +160,6 @@ class AuthLogin extends React.Component {
           </View>
         </TouchableWithoutFeedback>
 
-        <AppToast refProp={this.onToastRef} />
         <PageSpinner visible={loading} />
       </KeyboardAvoidingView>
     );

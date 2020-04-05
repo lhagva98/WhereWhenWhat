@@ -9,28 +9,17 @@ import {
   stRemoveUser,
   stRemoveCurrentMovies,
 } from '../utils/storage';
-import {
-  requestToCreateNewGuestUser,
-  requestToCreateNewAuthenticatedUser,
-} from '../api/auth';
+import {login, SignUp} from '../api/auth';
 import {getTmdbErrorMessage} from '../api/codes';
 import RouteNames from '../RouteNames';
 import Config from '../Config';
-
+import chest from '../api/chest';
 export const clearLoginFields = () => ({type: Auth.CLEAR_LOGIN_FIELDS});
 export const loadUserIntoRedux = user => ({
   type: Auth.USER_LOADED,
   payload: user,
 });
-export const loginUsernameChanged = text => ({
-  type: Auth.USERNAME_CHANGED,
-  payload: text,
-});
-export const loginPasswordChanged = text => ({
-  type: Auth.PASSWORD_CHANGED,
-  payload: text,
-});
-
+const showToast = msg => chest.get('toast')(msg);
 export const logOutUser = navigation => dispatch => {
   stRemoveUser();
   stRemoveCurrentMovies();
@@ -38,7 +27,7 @@ export const logOutUser = navigation => dispatch => {
   dispatch({type: Auth.LOG_OUT});
 };
 
-export const createGuest = ({showToast, onSuccess}) => async dispatch => {
+export const createGuest = ({onSuccess}) => async dispatch => {
   dispatch({type: Auth.ATTEMPING});
   try {
     const guest = {
@@ -57,7 +46,7 @@ export const createGuest = ({showToast, onSuccess}) => async dispatch => {
       2000,
     );
 
-    showToast && showToast('Амжилттай Нэвтэрлээ');
+    showToast('Амжилттай Нэвтэрлээ');
     onSuccess();
   } catch (error) {
     showToast && showToast('Алдаа гарлаа');
@@ -68,82 +57,63 @@ export const createGuest = ({showToast, onSuccess}) => async dispatch => {
 export const loginUser = ({
   username,
   password,
-  showToast,
   onSuccess,
 }) => async dispatch => {
-  const usernameValidator = validateUsername(username);
-  const passwordValidator = validatePassword(password);
-  const isValidCredentials =
-    usernameValidator.isValid && passwordValidator.isValid;
+  dispatch({type: Auth.ATTEMPING});
 
-  if (!isValidCredentials) {
-    dispatch({
-      type: Auth.USERNAME_INCORRECT,
-      payload: usernameValidator.message,
-    });
-    dispatch({
-      type: Auth.PASSWORD_INCORRECT,
-      payload: passwordValidator.message,
-    });
-    return;
-  }
-
-  dispatch({type: Auth.LOGIN_USER_ATTEMPT});
-
-  try {
-    const {accountId, sessionId} = await requestToCreateNewAuthenticatedUser({
-      username,
-      password,
+  login({email: username, password: password})
+    .then(res => {
+      dispatch({
+        type: Auth.LOGIN_USER_SUCCESS,
+        payload: createUser({token: res.payload.token, data: res.payload.user}),
+      });
+      showToast('Амжилттай нэвтэрлээ');
+      onSuccess();
+    })
+    .catch(err => {
+      console.log(err);
+      dispatch({type: Auth.LOGIN_USER_FAIL});
+      showToast(err.message);
     });
 
-    dispatch({
-      type: Auth.LOGIN_USER_SUCCESS,
-      payload: createUser({accountId, username, sessionId}),
-    });
-    onSuccess();
-  } catch (error) {
-    const isUnauthorized = error.response && error.response.status === 401;
-    if (!isUnauthorized && showToast) {
-      showToast('Something went wrong. Please try again later.');
-    }
-    const errMessage = isUnauthorized
-      ? getTmdbErrorMessage(error.response.data.status_code)
-      : '';
-    dispatch({type: Auth.LOGIN_USER_FAIL, payload: errMessage});
-    showToast(errMessage);
-  }
+  // } catch (error) {
+  //   const isUnauthorized = error.response && error.response.status === 401;
+  //   if (!isUnauthorized && showToast) {
+  //     showToast('Something went wrong. Please try again later.');
+  //   }
+  //   const errMessage = isUnauthorized
+  //     ? getTmdbErrorMessage(error.response.data.status_code)
+  //     : '';
+  //   dispatch({type: Auth.LOGIN_USER_FAIL, payload: errMessage});
+  //   showToast(errMessage);
+  // }
 };
 
 export const RegisterAccount = ({
-  fname,
+  name,
   password,
   email,
   onSuccess,
 }) => async dispatch => {
-  dispatch({type: Auth.REGISTER_USER_ATTEMP});
+  dispatch({type: Auth.ATTEMPING});
 
-  try {
-    // const {accountId, sessionId} = await requestToCreateNewAuthenticatedUser({
-    //   username,
-    //   password,
-    // });
+  SignUp({email: email, password: password, name: name})
+    .then(res => {
+      dispatch({
+        type: Auth.REGISTER_USER_SUCCESS,
+        payload: createUser({token: res.payload.token, data: res.payload.user}),
+      });
 
-    dispatch({
-      type: Auth.REGISTER_USER_SUCCESS,
-      payload: createUser({accountId, username, sessionId}),
+      showToast('Амжилттай бүртгэгдлээ');
+      // showToast1('Амжилттай бүртгэгдлээ');
+      // showToast('Амжилттай бүртгэгдлээ');
+      onSuccess();
+    })
+    .catch(err => {
+      console.log(err);
+      dispatch({type: Auth.LOGIN_USER_FAIL});
+      showToast(err.message);
     });
-    onSuccess();
-  } catch (error) {
-    const isUnauthorized = error.response && error.response.status === 401;
-    if (!isUnauthorized && showToast) {
-      showToast('Something went wrong. Please try again later.');
-    }
-    const errMessage = isUnauthorized
-      ? getTmdbErrorMessage(error.response.data.status_code)
-      : '';
-    dispatch({type: Auth.LOGIN_USER_FAIL, payload: errMessage});
-    showToast(errMessage);
-  }
 };
 
 // Local functions

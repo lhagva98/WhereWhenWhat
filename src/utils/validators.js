@@ -7,6 +7,13 @@ export default class Validation {
       password: validatePassword(password),
     };
   };
+  static signUpForm = (name, email, password) => {
+    return {
+      name: validateUsername(name),
+      password: validatePassword(password),
+      email: validateEmail(email),
+    };
+  };
 }
 
 const validateUsername = username => {
@@ -24,7 +31,7 @@ const validateEmail = email => {
   let isValid = false;
   let msg = '';
   if (validator.isEmail(email)) {
-    msg = 'Please enter your email.';
+    msg = 'Цахим шуудангаа оруулна уу';
   } else {
     isValid = true;
   }

@@ -307,15 +307,17 @@ const RootStack = ({user, loadUserIntoRedux}) => {
   }
   return (
     <SafeAreaProvider>
-      <NavigationContainer>
-        <Stack.Navigator headerMode="none">
-          {user ? (
-            <Stack.Screen name={RouteNames.HomeStack} component={HomeStack} />
-          ) : (
-            <Stack.Screen name={RouteNames.AuthStack} component={AuthStack} />
-          )}
-        </Stack.Navigator>
-      </NavigationContainer>
+      <SafeAreaView style={{flex: 1}}>
+        <NavigationContainer>
+          <Stack.Navigator headerMode="none">
+            {user ? (
+              <Stack.Screen name={RouteNames.HomeStack} component={HomeStack} />
+            ) : (
+              <Stack.Screen name={RouteNames.AuthStack} component={AuthStack} />
+            )}
+          </Stack.Navigator>
+        </NavigationContainer>
+      </SafeAreaView>
     </SafeAreaProvider>
   );
 };

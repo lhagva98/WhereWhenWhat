@@ -2,14 +2,15 @@ export const REGISTRATION_URL = 'https://www.themoviedb.org/account/signup';
 export const RESET_PASSWORD_URL =
   'https://www.themoviedb.org/account/reset-password';
 
-export const API_KEY = '16920a1e34e3b08e3a720c33cfc1341c';
-export const ROOT_URL = 'https://api.themoviedb.org/3';
-const withKey = url => `${ROOT_URL}${url}?api_key=${API_KEY}`;
+export const ROOT_URL = 'http://10.0.2.2:5000';
+const withKey = url => `${ROOT_URL}${url}`;
 
 // Account
-export const NEW_SESSION = withKey('/authentication/session/new');
-export const NEW_GUEST_SESSION = withKey('/authentication/guest_session/new');
-export const NEW_REQUEST_TOKEN = withKey('/authentication/token/new');
+// export const NEW_SESSION = withKey('/authentication/session/new');
+// export const NEW_GUEST_SESSION = withKey('/authentication/guest_session/new');
+// export const NEW_REQUEST_TOKEN = withKey('/authentication/token/new');
+export const LOGIN_URL = withKey('/user/login');
+export const SIGNUP_URL = withKey('/user/register');
 export const VALIDATE_TOKEN_WITH_LOGIN = withKey(
   '/authentication/token/validate_with_login',
 );

@@ -33,7 +33,7 @@ class LoginInput extends React.PureComponent {
             focused && styles.inputContainerFocused,
             error && styles.inputContainerError,
           ]}>
-          <View style={styles.icon}>{this.props.Icon}</View>
+          {/* <View style={styles.icon}>{this.props.Icon}</View> */}
           <TextInput
             selectionColor={Theme.colors.textInputSelection}
             autoCorrect={false}

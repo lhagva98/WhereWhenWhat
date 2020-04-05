@@ -14,36 +14,50 @@ import isIOS from '../../utils/isIOS';
 import TouchAble from '../../components/TouchAble';
 import {RegisterAccount} from '../../actions';
 import Icon from 'react-native-vector-icons/FontAwesome5';
-import AppToast from '../../components/AppToast';
 import {AppButton, PageSpinner} from '../../components/common';
 import Theme from '../../Theme';
 import SignUpInput from '../../components/SignUpInput';
+import Validation from '../../utils/validators';
 const SignUp = props => {
-  const [fname, setFname] = useState('');
+  const [name, setName] = useState('');
   const [isValidated, setValidate] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loader, setLoader] = useState(false);
-  const fnameRef = useRef();
+  const nameRef = useRef();
   const emailRef = useRef();
   const passRef = useRef();
-  const toastRef = useRef();
   const [validation, setValidation] = useState({
-    fname: false,
-    email: false,
-    password: false,
+    name: {
+      isValid: true,
+      msg: '',
+    },
+    email: {
+      isValid: true,
+      msg: '',
+    },
+    password: {
+      isValid: true,
+      msg: '',
+    },
   });
 
   registerAccount = async () => {
-    props.RegisterAccount({
-      fname: fname,
-      password: password,
-      email: email,
-      onSuccess: () => {
-        alert('Success');
-      },
-    });
-    // setLoader(false)
+    const {navigation} = props;
+    const validate = Validation.signUpForm(name, email, password);
+    setValidation(validate);
+    console.log(validate);
+    if (validate.name.isValid && validate.password.isValid) {
+      props.RegisterAccount({
+        name: name,
+        password: password,
+        email: email,
+        onSuccess: () => {
+          navigation.navigate(RouteNames.HomeStack);
+        },
+      });
+      // setLoader(false)
+    }
   };
   return (
     <KeyboardAvoidingView
@@ -52,21 +66,23 @@ const SignUp = props => {
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={styles.formContainer}>
           <SignUpInput
-            label="Хэрэглэгчийн нэр"
-            textContentType="text"
+            label="Өөрийн нэр"
+            textContentType="nickname"
             style={styles.input}
-            error={false}
-            value={fname}
+            subtext={validation.name.msg}
+            error={!validation.name.isValid}
+            value={name}
             onChangeText={val => {
-              setFname(val);
+              setName(val);
             }}
           />
           <SignUpInput
-            label="Цахим шуудан"
-            textContentType="text"
+            label="Нэвтрэх нэр"
+            textContentType="emailAddress"
             style={styles.input}
-            error={false}
-            value={fname}
+            subtext={validation.email.msg}
+            error={!validation.email.isValid}
+            value={email}
             onChangeText={val => {
               setEmail(val);
             }}
@@ -76,8 +92,8 @@ const SignUp = props => {
             label="Нууц үг"
             textContentType="password"
             style={styles.input}
-            subtext={'aa'}
-            error={false}
+            subtext={validation.password.msg}
+            error={!validation.password.isValid}
             value={password}
             onChangeText={val => {
               setPassword(val);
@@ -92,7 +108,6 @@ const SignUp = props => {
           </AppButton>
         </View>
       </TouchableWithoutFeedback>
-      <AppToast ref={toastRef} />
       <PageSpinner visible={loader} />
     </KeyboardAvoidingView>
   );
