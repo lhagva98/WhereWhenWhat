@@ -50,7 +50,7 @@ class SearchBlock extends React.PureComponent {
     onBlur && onBlur();
   };
 
-  onSearchTextChange = text => {
+  onSearchTextChange = (text) => {
     const {onChangeText, onDelayedInput, delayTime} = this.props;
     onChangeText(text);
 
@@ -84,7 +84,6 @@ class SearchBlock extends React.PureComponent {
   onHardwareBackPress = () => {
     const {navigation} = this.props;
     const {focused} = this.state;
-
     if (navigation.isFocused() && focused) {
       this.onBackPress();
       return true;
@@ -95,7 +94,7 @@ class SearchBlock extends React.PureComponent {
     this.clearInput();
   };
 
-  onRef = ref => {
+  onRef = (ref) => {
     const {inputRef} = this.props;
     this.textInput = ref;
     inputRef && inputRef(ref);

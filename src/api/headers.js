@@ -1,3 +1,5 @@
+import {getUserToken} from '../utils/store';
+
 export default function headers(authorization = false, contentType = null) {
   let properties = {
     'Content-Type': 'application/json',
@@ -11,7 +13,7 @@ export default function headers(authorization = false, contentType = null) {
   if (authorization) {
     return {
       ...properties,
-      Authorization: 'Bearer ' + ' ',
+      Authorization: 'Bearer ' + getUserToken(),
     };
   } else {
     return {

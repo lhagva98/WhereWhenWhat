@@ -26,14 +26,23 @@ const {tiny} = Theme.spacing;
 // ------------------------------------------------------
 // MovieDetailsButtons
 // ------------------------------------------------------
-export const getAddToWatchlistIcon = ({inWatchlist}) => (
+export const getMyInterestedIcon = (interested) => (
   <IconMaterialIcons
-    name={inWatchlist ? 'playlist-add-check' : 'playlist-add'}
-    color={inWatchlist ? primaryColor : lightestColor}
+    name={interested ? 'playlist-add-check' : 'playlist-add'}
+    color={interested ? primaryColor : lightestColor}
     size={iconSize}
   />
 );
+export const getCallIcon = () => (
+  <IconMaterialIcons name={'call'} color={lightestColor} size={iconSize} />
+);
+export const getEventMapIcon = () => (
+  <IconMaterialIcons name={'map'} color={lightestColor} size={iconSize} />
+);
 
+export const getshareIcon = () => (
+  <IconMaterialIcons name={'share'} color={lightestColor} size={iconSize} />
+);
 export const getAddToFavoritesIcon = ({inFavorite}) => (
   <IconMaterialIcons
     name={inFavorite ? 'favorite' : 'favorite-border'}
@@ -103,7 +112,7 @@ export const getMovieListEmptyIcon = () => (
 // ------------------------------------------------------
 // MovieCard
 // ------------------------------------------------------
-export const getMovieCardChevron = isChevronUp => (
+export const getMovieCardChevron = (isChevronUp) => (
   <IconEntypo
     name={isChevronUp ? 'chevron-up' : 'chevron-down'}
     size={largeIconSize * 0.95}

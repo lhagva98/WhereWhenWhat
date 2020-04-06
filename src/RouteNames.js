@@ -4,7 +4,6 @@ export default {
   HomeStack: 'HomeStack',
   AuthWelcome: 'AuthWelcome',
   AuthLogin: 'AuthLogin',
-
   Settings: 'Settings',
   MovieListScreen: 'MoviesListScreen',
   MovieDetailsScreen: 'MovieDetailsScreen',

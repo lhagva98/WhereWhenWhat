@@ -4,7 +4,7 @@ import {createStackNavigator} from '@react-navigation/stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {NavigationContainer} from '@react-navigation/native';
 import Splash from './screens/Splash';
-import axios from 'axios';
+import {navigationRef} from './RootNavigation';
 import Config from './Config';
 import {connect} from 'react-redux';
 import {View, StyleSheet, UIManager, Text} from 'react-native';
@@ -308,7 +308,7 @@ const RootStack = ({user, loadUserIntoRedux}) => {
   return (
     <SafeAreaProvider>
       <SafeAreaView style={{flex: 1}}>
-        <NavigationContainer>
+        <NavigationContainer ref={navigationRef}>
           <Stack.Navigator headerMode="none">
             {user ? (
               <Stack.Screen name={RouteNames.HomeStack} component={HomeStack} />

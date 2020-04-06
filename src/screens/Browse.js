@@ -11,25 +11,24 @@ import {
   getSectionFetchFunctionFromUrlGetter as getFetchFunction,
   getSearchFetchFunctionFromQuery,
 } from '../api/movies';
-import {
-  getTrendingDailyMoviesUrl,
-  getTrendingWeeklyMoviesUrl,
-  getPopularMoviesUrl,
-  getTopRatedMoviesUrl,
-} from '../api/urls';
+import {getSportEventUrl, getMusicEventUrl} from '../api/urls';
 import Theme from '../Theme';
 
 const BROWSE_SECTIONS = [
   {
-    title: 'Trending Daily',
-    fetchFunction: getFetchFunction(getTrendingDailyMoviesUrl),
+    title: 'Sport',
+    fetchFunction: getFetchFunction(getSportEventUrl),
   },
   {
-    title: 'Trending Weekly',
-    fetchFunction: getFetchFunction(getTrendingWeeklyMoviesUrl),
+    title: 'Sport2',
+    fetchFunction: getFetchFunction(getMusicEventUrl),
   },
-  {title: 'Popular', fetchFunction: getFetchFunction(getPopularMoviesUrl)},
-  {title: 'Top Rated', fetchFunction: getFetchFunction(getTopRatedMoviesUrl)},
+  // {
+  //   title: 'Trending Weekly',
+  //   fetchFunction: getFetchFunction(getTrendingWeeklyMoviesUrl),
+  // },
+  // {title: 'Popular', fetchFunction: getFetchFunction(getPopularMoviesUrl)},
+  // {title: 'Top Rated', fetchFunction: getFetchFunction(getTopRatedMoviesUrl)},
 ];
 
 class Browse extends React.Component {
@@ -40,6 +39,7 @@ class Browse extends React.Component {
       obj[section.title] = []; // eslint-disable-line
       return obj;
     }, {});
+    console.log(sectionsMovies);
 
     this.state = {
       isInitialSearch: true,
@@ -59,9 +59,9 @@ class Browse extends React.Component {
 
   onSearchBlockFocus = () => this.setState({isSearchBlockFocused: true});
   onSearchBlockBlur = () => this.setState({isSearchBlockFocused: false});
-  onSearchTextInputRef = ref => (this.searchTextInput = ref);
+  onSearchTextInputRef = (ref) => (this.searchTextInput = ref);
 
-  onSearchTextChange = text => {
+  onSearchTextChange = (text) => {
     const additionalProps = text.length === 0 ? {isInitialSearch: true} : {};
     this.setState({searchText: text, ...additionalProps});
   };
@@ -91,14 +91,13 @@ class Browse extends React.Component {
       refetch: {fetchUntilSuccess},
     } = this.props;
 
-    BROWSE_SECTIONS.forEach(section =>
-      fetchUntilSuccess(() => section.fetchFunction({page: 1})).then(data => {
+    BROWSE_SECTIONS.forEach((section) =>
+      fetchUntilSuccess(() => section.fetchFunction({page: 1})).then((data) => {
         const {sectionsMovies} = this.state;
         const newSections = {
           ...sectionsMovies,
-          [section.title]: data.movies,
+          [section.title]: data.payload.results,
         };
-
         this.setState({sectionsMovies: newSections});
       }),
     );
@@ -117,7 +116,7 @@ class Browse extends React.Component {
 
   renderBrowseSections() {
     const {sectionsMovies} = this.state;
-    const keyExtractor = section => section.title;
+    const keyExtractor = (section) => section.title;
 
     return (
       <FlatList
@@ -148,6 +147,7 @@ class Browse extends React.Component {
           onBlockFocus={this.onSearchBlockFocus}
           onChangeText={this.onSearchTextChange}
           onDelayedInput={this.onDelayedInput}
+          navigation={this.props.navigation}
         />
 
         <View style={styles.bottomContainer} {...this.panResponder.panHandlers}>
