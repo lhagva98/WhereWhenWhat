@@ -2,9 +2,9 @@ import React from 'react';
 import {View, FlatList} from 'react-native';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
-import MoviePreview from './MoviePreview';
+import EventPreview from './EventPreview';
 import GalleryImage from './GalleryImage';
-import {movieKeyExtractor} from '../../utils/movies';
+import {movieKeyExtractor} from '../../utils/events';
 import Theme from '../../Theme';
 
 class GalleryHorizontalFlatList extends React.PureComponent {
@@ -12,7 +12,7 @@ class GalleryHorizontalFlatList extends React.PureComponent {
     <GalleryImage key={index} image={item} highPriority={index < 5} />
   );
   renderEmptyContainer = () =>
-    _.times(4).map((r, i) => <MoviePreview key={i} />);
+    _.times(4).map((r, i) => <EventPreview key={i} />);
   renderHeader = () => (
     <GalleryImage
       style={{width: this.props.paddingLeft - Theme.spacing.tiny}}

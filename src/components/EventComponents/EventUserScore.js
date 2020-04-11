@@ -5,7 +5,7 @@ import {AppText} from '../common';
 import {getFontStyleObject} from '../../utils/font';
 import Theme from '../../Theme';
 
-class MovieUserScore extends React.Component {
+class EventUserScore extends React.Component {
   getScoreColorStyle(score) {
     const {success, danger, warning} = Theme.colors;
     const color = score > 7 ? success : score > 5 ? warning : danger;
@@ -14,7 +14,7 @@ class MovieUserScore extends React.Component {
 
   render() {
     const {style, ...props} = this.props;
-    // const score = movie.vote_average;
+    // const score = event.vote_average;
     // if (!score || score === 0) return null;
 
     return (
@@ -31,9 +31,9 @@ const styles = StyleSheet.create({
   },
 });
 
-MovieUserScore.propTypes = {
-  movie: PropTypes.object.isRequired,
+EventUserScore.propTypes = {
+  event: PropTypes.object.isRequired,
   style: PropTypes.any,
 };
 
-export default MovieUserScore;
+export default EventUserScore;

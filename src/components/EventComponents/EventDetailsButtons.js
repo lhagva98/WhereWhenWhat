@@ -7,6 +7,10 @@ import withRefetch from '../hoc/withRefetch';
 import {getImdbLink} from '../../api/urls';
 import {safeOpenURL} from '../../utils/network';
 import {Linking} from 'react-native';
+import {updateInterested} from '../../actions';
+import RouteNames from '../../RouteNames';
+
+import * as RootNavigation from '../../RootNavigation';
 import {
   getMyInterestedIcon,
   getAddToFavoritesIcon,
@@ -16,13 +20,14 @@ import {
   getCallIcon,
 } from '../../utils/icons';
 import {
-  fetchMovieAccountState,
-  changeMovieFavoriteStatus,
-  changeMovieWatchlistStatus,
-} from '../../api/movies';
+  fetcheventAccountState,
+  changeeventFavoriteStatus,
+  changeeventWatchlistStatus,
+  changeEventInterestedStatus,
+} from '../../api/events';
 import Theme from '../../Theme';
 
-class MovieDetailsButtons extends React.PureComponent {
+class EventDetailsButtons extends React.PureComponent {
   state = {
     //   inWatchlist: false,
     isWatchlistFetching: false,
@@ -32,18 +37,19 @@ class MovieDetailsButtons extends React.PureComponent {
 
   componentDidMount() {
     // eslint-disable-next-line
-    // requestAnimationFrame(() => this.initialMovieFetch());
+    // requestAnimationFrame(() => this.initialeventFetch());
   }
 
   onAddToWatchlist = async () => {
-    const {movie, refetch} = this.props;
+    const {event, refetch} = this.props;
     const {inWatchlist} = this.state;
 
     this.setState({inWatchlist: !inWatchlist, isWatchlistFetching: true});
     try {
       await refetch.fetchSafe(() =>
-        changeMovieWatchlistStatus({movie, watchlist: !inWatchlist}),
+        changeeventWatchlistStatus({event, watchlist: !inWatchlist}),
       );
+
       this.setState({inWatchlist: !inWatchlist});
     } catch (e) {
       this.setState({inWatchlist});
@@ -53,56 +59,57 @@ class MovieDetailsButtons extends React.PureComponent {
   };
 
   onAddInterested = async () => {
-    const {movie, refetch} = this.props;
-    const {inFavorite} = this.state;
+    const {refetch, id, interested} = this.props;
 
-    this.setState({inFavorite: !inFavorite, isFavoriteFetching: true});
+    this.setState({isFavoriteFetching: true});
     try {
-      await refetch.fetchSafe(() =>
-        changeMovieFavoriteStatus({movie, favorite: !inFavorite}),
-      );
-      this.setState({inFavorite: !inFavorite});
+      // refetch
+      //   .fetchSafe(() =>
+      changeEventInterestedStatus(id, !interested).then(res => {
+        console.log(res);
+        this.props.updateInterested(res.payload.interested);
+      });
     } catch (e) {
-      this.setState({inFavorite});
+      console.log('yes');
+      // this.setState({inFavorite});
     } finally {
       this.setState({isFavoriteFetching: false});
     }
   };
 
-  initialMovieFetch() {
-    const {movie, isGuest, refetch} = this.props;
+  initialeventFetch() {
+    const {event, isGuest, refetch} = this.props;
     if (isGuest) return;
-
     refetch
-      .fetchUntilSuccess(() => fetchMovieAccountState({movie}))
+      .fetchUntilSuccess(() => fetcheventAccountState({event}))
       .then(({favorite, watchlist}) => {
         this.setState({inWatchlist: watchlist, inFavorite: favorite});
       });
   }
 
   openImdb = () => {
-    const {detailedMovie} = this.props;
-    safeOpenURL(getImdbLink(detailedMovie.imdb_id));
+    const {detailedevent} = this.props;
+    safeOpenURL(getImdbLink(detailedevent.imdb_id));
   };
   callCompany = () => {
     const phoneNumber = this.props.phoneNumber || 88122217;
     Linking.openURL(`tel:${phoneNumber}`);
   };
   openMap = () => {
-    alert(this.props.location);
+    RootNavigation.navigate(RouteNames.Map, {location: this.props.location});
   };
-  isInterested = () => {
-    const {user, id} = this.props;
-    console.log(user);
-    if (user === null) return false;
-    else {
-      const myInterested = user.data.interested;
-      return myInterested.indexOf(id) !== -1;
-    }
-  };
+  // isInterested = () => {
+  //   const {user, id} = this.props;
+  //   console.log(user);
+  //   if (user === null) return false;
+  //   else {
+  //     const myInterested = user.data.interested;
+  //     return myInterested.indexOf(id) !== -1;
+  //   }
+  // };
 
   render() {
-    const {isGuest} = this.props;
+    const {isGuest, interested} = this.props;
     const {
       inWatchlist,
       inFavorite,
@@ -119,8 +126,8 @@ class MovieDetailsButtons extends React.PureComponent {
             disabled={isWatchlistFetching}
             style={styles.iconButton}
             onPress={this.onAddInterested}
-            Icon={getMyInterestedIcon(this.isInterested())}
-            text={this.isInterested() ? 'Сануулагдсан' : 'Надад сануул'}
+            Icon={getMyInterestedIcon(interested)}
+            text={interested ? 'Сануулагдсан' : 'Надад сануул'}
           />
         )}
         {isAuthenticated && (
@@ -172,12 +179,15 @@ const styles = StyleSheet.create({
   },
 });
 
-MovieDetailsButtons.propTypes = {
+EventDetailsButtons.propTypes = {
   location: PropTypes.array.isRequired,
   phoneNumber: PropTypes.number,
-  detailedMovie: PropTypes.object,
+  detailedevent: PropTypes.object,
 };
 
 const mapStateToProps = ({auth: {isGuest, user}}) => ({isGuest, user});
 
-export default connect(mapStateToProps, {})(withRefetch(MovieDetailsButtons));
+export default connect(
+  mapStateToProps,
+  {updateInterested},
+)(withRefetch(EventDetailsButtons));

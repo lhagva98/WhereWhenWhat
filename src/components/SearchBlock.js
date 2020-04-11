@@ -50,7 +50,7 @@ class SearchBlock extends React.PureComponent {
     onBlur && onBlur();
   };
 
-  onSearchTextChange = (text) => {
+  onSearchTextChange = text => {
     const {onChangeText, onDelayedInput, delayTime} = this.props;
     onChangeText(text);
 
@@ -94,7 +94,7 @@ class SearchBlock extends React.PureComponent {
     this.clearInput();
   };
 
-  onRef = (ref) => {
+  onRef = ref => {
     const {inputRef} = this.props;
     this.textInput = ref;
     inputRef && inputRef(ref);
@@ -148,7 +148,7 @@ class SearchBlock extends React.PureComponent {
             <View style={styles.labelWrapper}>
               {getSearchInputLabelIcon()}
               <AppText style={styles.labelText} type="headline">
-                Search for Movies
+                Хайлт
               </AppText>
             </View>
           </TouchableScale>

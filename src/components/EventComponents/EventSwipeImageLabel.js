@@ -9,7 +9,7 @@ const LABELS = {
   skip: { src: require('../../assets/img/swipe_labels/SKIP.png'), ratio: 2.28 }
 };
 
-class MovieSwipeImageLabel extends React.PureComponent {
+class EventSwipeImageLabel extends React.PureComponent {
   render() {
     const { type, style } = this.props;
     const label = LABELS[type];
@@ -31,9 +31,9 @@ const styles = StyleSheet.create({
   }
 });
 
-MovieSwipeImageLabel.propTypes = {
+EventSwipeImageLabel.propTypes = {
   type: PropTypes.string,
   style: PropTypes.any
 };
 
-export default MovieSwipeImageLabel;
+export default EventSwipeImageLabel;

@@ -11,8 +11,8 @@ chest.set({
   fetch: unfetch,
 });
 class App extends Component {
-  onToastRef = (ref) => (this.toast = ref);
-  showToast = (message) => this.toast.show(message, 2000);
+  onToastRef = ref => (this.toast = ref);
+  showToast = message => this.toast.show(message, 2000);
   componentDidMount() {
     chest.set({
       toast: this.showToast,

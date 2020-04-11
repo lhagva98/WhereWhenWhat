@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {View, StyleSheet} from 'react-native';
-import MovieUserScore from './MovieUserScore';
+import EventUserScore from './EventUserScore';
 import {AppText} from '../common';
 import Theme from '../../Theme';
 import {getMonthName} from '../../utils/consts';
@@ -13,7 +13,7 @@ class StartDay extends React.Component {
     const day = new Date(date).getDate();
     return (
       <View style={[styles.container, style]}>
-        {/* <MovieUserScore style={styles.score} movie={movie} /> */}
+        {/* <EventUserScore style={styles.score} event={event} /> */}
         <AppText style={styles.month}>{getMonthName(month)}</AppText>
         <AppText style={styles.day}>{day}</AppText>
       </View>

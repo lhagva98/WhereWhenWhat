@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {View, StyleSheet} from 'react-native';
-import MovieUserScore from './MovieUserScore';
+import EventUserScore from './EventUserScore';
 import {AppText} from '../common';
 import Theme from '../../Theme';
 import {getMonthName} from '../../utils/consts';
@@ -13,7 +13,7 @@ class OverView extends React.Component {
     return (
       <View style={[styles.container, style]}>
         <AppText style={styles.name}>{threeDot(name)}</AppText>
-        {/* <MovieUserScore style={styles.score} movie={movie} />
+        {/* <EventUserScore style={styles.score} event={event} />
         <AppText style={styles.month}>{getMonthName(month)}</AppText>
         <AppText style={styles.day}>{day}</AppText> */}
         <View style={styles.seperator}></View>

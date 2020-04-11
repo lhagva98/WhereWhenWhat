@@ -26,7 +26,7 @@ const {tiny} = Theme.spacing;
 // ------------------------------------------------------
 // MovieDetailsButtons
 // ------------------------------------------------------
-export const getMyInterestedIcon = (interested) => (
+export const getMyInterestedIcon = interested => (
   <IconMaterialIcons
     name={interested ? 'playlist-add-check' : 'playlist-add'}
     color={interested ? primaryColor : lightestColor}
@@ -38,6 +38,9 @@ export const getCallIcon = () => (
 );
 export const getEventMapIcon = () => (
   <IconMaterialIcons name={'map'} color={lightestColor} size={iconSize} />
+);
+export const getMoreIcon = () => (
+  <IconFontAwesome name={'ellipsis-h'} color={lightestColor} size={20} />
 );
 
 export const getshareIcon = () => (
@@ -103,16 +106,16 @@ export const getSearchInputCloseIcon = () => (
 );
 
 // ------------------------------------------------------
-// MovieList
+// EventList
 // ------------------------------------------------------
 export const getMovieListEmptyIcon = () => (
   <IconAntDesign name="smileo" color={lightestColor} size={hugeIconSize} />
 );
 
 // ------------------------------------------------------
-// MovieCard
+// EventCard
 // ------------------------------------------------------
-export const getMovieCardChevron = (isChevronUp) => (
+export const getMovieCardChevron = isChevronUp => (
   <IconEntypo
     name={isChevronUp ? 'chevron-up' : 'chevron-down'}
     size={largeIconSize * 0.95}

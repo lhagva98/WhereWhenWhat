@@ -5,20 +5,53 @@ import {
   validateEmail,
 } from '../utils/validators';
 import {
+  stSaveToken,
   stSaveUser,
   stRemoveUser,
+  stRemoveAll,
   stRemoveCurrentMovies,
 } from '../utils/storage';
-import {login, SignUp} from '../api/auth';
+import {login, SignUp, userInfo} from '../api/auth';
 import {getTmdbErrorMessage} from '../api/codes';
 import RouteNames from '../RouteNames';
 import Config from '../Config';
 import chest from '../api/chest';
 export const clearLoginFields = () => ({type: Auth.CLEAR_LOGIN_FIELDS});
-export const loadUserIntoRedux = user => ({
-  type: Auth.USER_LOADED,
-  payload: user,
-});
+
+export const updateInterested = interested => async dispatch => {
+  console.log(interested);
+  dispatch({
+    type: Auth.UPDATE_INTERESTED,
+    payload: interested,
+  });
+};
+
+export const loadUserCheckByToken = user => async dispatch => {
+  try {
+    console.log(user);
+    dispatch({
+      type: Auth.USER_LOADED,
+      payload: user,
+    });
+  } catch (error) {
+    console.log(error);
+  }
+  userInfo()
+    .then(res => {
+      console.log(res.payload);
+      dispatch({
+        type: Auth.USER_INFO_UPDATE,
+        payload: res.payload.user,
+      });
+      showToast('Welcome back');
+    })
+    .catch(err => {
+      console.log(err);
+      stRemoveAll();
+      dispatch({type: Auth.LOGIN_USER_FAIL});
+      showToast(err.message);
+    });
+};
 const showToast = msg => chest.get('toast')(msg);
 export const logOutUser = navigation => dispatch => {
   stRemoveUser();
@@ -57,7 +90,7 @@ export const createGuest = ({onSuccess}) => async dispatch => {
 export const loginUser = ({
   username,
   password,
-  onSuccess,
+  //onSuccess,
 }) => async dispatch => {
   dispatch({type: Auth.ATTEMPING});
 
@@ -67,8 +100,9 @@ export const loginUser = ({
         type: Auth.LOGIN_USER_SUCCESS,
         payload: createUser({token: res.payload.token, data: res.payload.user}),
       });
+
       showToast('Амжилттай нэвтэрлээ');
-      onSuccess();
+      // onSuccess();
     })
     .catch(err => {
       console.log(err);
@@ -118,9 +152,8 @@ export const RegisterAccount = ({
 
 // Local functions
 const createUser = ({token, data}) => {
-  const isGuest = token !== null;
-  const user = {token, data, isGuest};
   Config.logGeneral && console.log('Creating user: ', user);
+  const user = {token, data};
   stSaveUser(user);
   return user;
 };

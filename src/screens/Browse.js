@@ -3,20 +3,20 @@ import {connect} from 'react-redux';
 // import {withNavigationFocus} from 'react-navigation';
 import {View, FlatList, StyleSheet, PanResponder} from 'react-native';
 import SearchBlock from '../components/SearchBlock';
-import MoviesHorizontalScroll from '../components/MovieComponents/MoviesHorizontalScroll';
-import MovieSearchResults from '../components/MovieComponents/MovieSearchResults';
+import EventHorizontalScroll from '../components/EventComponents/EventHorizontalScroll';
+import MovieSearchResults from '../components/EventComponents/EventSearchResults';
 import withRefetch from '../components/hoc/withRefetch';
 import withDelayedLoading from '../components/hoc/withDelayedLoading';
 import {
   getSectionFetchFunctionFromUrlGetter as getFetchFunction,
   getSearchFetchFunctionFromQuery,
-} from '../api/movies';
+} from '../api/events';
 import {getSportEventUrl, getMusicEventUrl} from '../api/urls';
 import Theme from '../Theme';
 
 const BROWSE_SECTIONS = [
   {
-    title: 'Sport',
+    title: 'Спорт',
     fetchFunction: getFetchFunction(getSportEventUrl),
   },
   {
@@ -35,18 +35,18 @@ class Browse extends React.Component {
   constructor(props) {
     super(props);
 
-    const sectionsMovies = BROWSE_SECTIONS.reduce((obj, section) => {
+    const sectionsEvents = BROWSE_SECTIONS.reduce((obj, section) => {
       obj[section.title] = []; // eslint-disable-line
       return obj;
     }, {});
-    console.log(sectionsMovies);
+    console.log(sectionsEvents);
 
     this.state = {
       isInitialSearch: true,
       isSearchBlockFocused: false,
       searchResultsFetchFunction: getSearchFetchFunctionFromQuery(''),
       searchText: '',
-      sectionsMovies,
+      sectionsEvents,
     };
 
     this.createKeyboardDismissResponder();
@@ -59,9 +59,9 @@ class Browse extends React.Component {
 
   onSearchBlockFocus = () => this.setState({isSearchBlockFocused: true});
   onSearchBlockBlur = () => this.setState({isSearchBlockFocused: false});
-  onSearchTextInputRef = (ref) => (this.searchTextInput = ref);
+  onSearchTextInputRef = ref => (this.searchTextInput = ref);
 
-  onSearchTextChange = (text) => {
+  onSearchTextChange = text => {
     const additionalProps = text.length === 0 ? {isInitialSearch: true} : {};
     this.setState({searchText: text, ...additionalProps});
   };
@@ -91,37 +91,37 @@ class Browse extends React.Component {
       refetch: {fetchUntilSuccess},
     } = this.props;
 
-    BROWSE_SECTIONS.forEach((section) =>
-      fetchUntilSuccess(() => section.fetchFunction({page: 1})).then((data) => {
-        const {sectionsMovies} = this.state;
+    BROWSE_SECTIONS.forEach(section =>
+      fetchUntilSuccess(() => section.fetchFunction({page: 1})).then(data => {
+        const {sectionsEvents} = this.state;
         const newSections = {
-          ...sectionsMovies,
+          ...sectionsEvents,
           [section.title]: data.payload.results,
         };
-        this.setState({sectionsMovies: newSections});
+        this.setState({sectionsEvents: newSections});
       }),
     );
   }
 
   renderMoviesScrollSection = ({item: {title, fetchFunction}}) => {
-    const {sectionsMovies} = this.state;
+    const {sectionsEvents} = this.state;
     return (
-      <MoviesHorizontalScroll
+      <EventHorizontalScroll
         fetchFunction={fetchFunction}
-        movies={sectionsMovies[title]}
+        events={sectionsEvents[title]}
         title={title}
       />
     );
   };
 
   renderBrowseSections() {
-    const {sectionsMovies} = this.state;
-    const keyExtractor = (section) => section.title;
+    const {sectionsEvents} = this.state;
+    const keyExtractor = section => section.title;
 
     return (
       <FlatList
         data={BROWSE_SECTIONS}
-        extraData={sectionsMovies}
+        extraData={sectionsEvents}
         keyExtractor={keyExtractor}
         renderItem={this.renderMoviesScrollSection}
         showsVerticalScrollIndicator={false}

@@ -4,7 +4,7 @@ import FastImage from 'react-native-fast-image';
 import {View, StyleSheet, Dimensions, Text} from 'react-native';
 import {TouchableScale} from '../common';
 import * as RootNavigation from '../../RootNavigation';
-//import MovieDetailsScreen from '../../screens/Movie/MovieDetailsScreen';
+//import eventDetailsScreen from '../../screens/event/eventDetailsScreen';
 import RouteNames from '../../RouteNames';
 import {getEventImageUrl} from '../../api/urls';
 import Theme from '../../Theme';
@@ -13,20 +13,20 @@ import Overview from './Overview';
 const {width} = Dimensions.get('window');
 const PREVIEW_WIDTH = width * 0.7;
 
-class MoviePreview extends React.PureComponent {
+class EventPreview extends React.PureComponent {
   static getPreviewHeight = () =>
     PREVIEW_WIDTH / Theme.specifications.posterAspectRation;
 
   onPress = () => {
-    const {movie} = this.props;
-    // navigation.push(RouteNames.MovieDetailsScreen, {movie});
-    // navigation.navigate(RouteNames.MovieDetailsScreen, { movie }, null, id);
-    RootNavigation.navigate(RouteNames.MovieDetailsScreen, {movie: movie});
+    const {event} = this.props;
+    // navigation.push(RouteNames.eventDetailsScreen, {event});
+    // navigation.navigate(RouteNames.eventDetailsScreen, { event }, null, id);
+    RootNavigation.navigate(RouteNames.EventDetailsScreen, {event: event});
   };
 
   renderEvent() {
-    const {movie, highPriority} = this.props;
-    console.log(movie);
+    const {event, highPriority} = this.props;
+    console.log(event);
     const priority = highPriority
       ? FastImage.priority.high
       : FastImage.priority.normal;
@@ -35,16 +35,16 @@ class MoviePreview extends React.PureComponent {
         <FastImage
           style={styles.image}
           source={{
-            uri: getEventImageUrl(movie.image),
+            uri: getEventImageUrl(event.image),
             priority,
           }}
         />
         <View style={styles.footer}>
-          <StartDay date={movie.time[0]} />
+          <StartDay date={event.time[0]} />
           <Overview
             style={{flex: 1}}
-            name={movie.name}
-            date={movie.time[0]}
+            name={event.name}
+            date={event.time[0]}
             interested={false}
           />
         </View>
@@ -52,18 +52,18 @@ class MoviePreview extends React.PureComponent {
     );
   }
 
-  renderEmptyMovieView = () => <View style={styles.image} />;
+  renderEmptyeventView = () => <View style={styles.image} />;
 
   render() {
-    const {movie, style} = this.props;
+    const {event, style} = this.props;
 
     return (
       <TouchableScale
-        disabled={!movie}
+        disabled={!event}
         scaleFactor={0.97}
         style={[styles.container, style]}
         onPress={this.onPress}>
-        {movie ? this.renderEvent() : this.renderEmptyMovieView()}
+        {event ? this.renderEvent() : this.renderEmptyeventView()}
       </TouchableScale>
     );
   }
@@ -87,10 +87,10 @@ const styles = StyleSheet.create({
   },
 });
 
-MoviePreview.propTypes = {
-  movie: PropTypes.object,
+EventPreview.propTypes = {
+  event: PropTypes.object,
   highPriority: PropTypes.bool,
   style: PropTypes.any,
 };
 
-export default MoviePreview;
+export default EventPreview;

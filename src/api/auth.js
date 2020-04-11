@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {LOGIN_URL, SIGNUP_URL} from '../api/urls';
+import {LOGIN_URL, SIGNUP_URL, USER_INFO} from '../api/urls';
 import Config from '../Config';
 import chest from '../api/chest';
 import fetchHandler from '../network/fetchHandler';
@@ -13,7 +13,6 @@ export const login = data => {
     body: JSON.stringify(data),
   });
 };
-
 export const SignUp = data => {
   console.log(SIGNUP_URL);
   console.log(data);
@@ -21,5 +20,12 @@ export const SignUp = data => {
     method: 'post',
     headers: headers(),
     body: JSON.stringify(data),
+  });
+};
+
+export const userInfo = () => {
+  return fetchHandler(USER_INFO, {
+    method: 'get',
+    headers: headers(true),
   });
 };

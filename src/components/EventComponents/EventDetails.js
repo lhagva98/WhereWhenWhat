@@ -1,23 +1,24 @@
 import React from 'react';
 import {View, StyleSheet, LayoutAnimation} from 'react-native';
 import {AppText} from '../common';
-import MovieBackdropWithTitle from './MovieBackdropWithTitle';
-import MovieDetailsButtons from './MovieDetailsButtons';
-import MovieGenres from './MovieGenres';
-import MovieScoreYear from './MovieScoreYear';
-import MoviesHorizontalFlatList from './MoviesHorizontalFlatList';
+import {connect} from 'react-redux';
+import EventBackdropWithTitle from './EventBackdropWithTitle';
+import EventDetailsButtons from './EventDetailsButtons';
+import EventGenres from './EventGenres';
+import EventScoreYear from './EventScoreYear';
+import eventsHorizontalFlatList from './EventHorizontalFlatList';
 import withRefetch from '../hoc/withRefetch';
 import StartDay from './StartDay';
 import TimeAndShortAddress from './TimeAndShortAddress';
 import GalleryHorizontalFlatList from './GalleryHorizontalFlatList';
 import {
-  fetchMovieDetailedInfo,
-  fetchMovieRecommendations,
-} from '../../api/movies';
+  fetcheventDetailedInfo,
+  fetcheventRecommendations,
+} from '../../api/events';
 import Theme from '../../Theme';
-import MoviePreview from './MoviePreview';
+import EventPreview from './EventPreview';
 
-class MovieDetails extends React.PureComponent {
+class EventDetails extends React.PureComponent {
   componentDidMount() {
     // eslint-disable-next-line
     // requestAnimationFrame(() => this.loadDetailedInfo());
@@ -25,20 +26,20 @@ class MovieDetails extends React.PureComponent {
 
   // loadDetailedInfo = async () => {
   //   const {
-  //     movie,
+  //     event,
   //     refetch: {fetchUntilSuccess},
   //   } = this.props;
-  //   const detailedMovie = await fetchUntilSuccess(() =>
-  //     fetchMovieDetailedInfo({movie}),
+  //   const detailedevent = await fetchUntilSuccess(() =>
+  //     fetcheventDetailedInfo({event}),
   //   );
   //   this.configureDetailsAnimation();
-  //   this.setState({detailedMovie});
+  //   this.setState({detailedevent});
 
-  //   const {movies: recommendedMovies} = await fetchUntilSuccess(() =>
-  //     fetchMovieRecommendations({movie}),
+  //   const {events: recommendedevents} = await fetchUntilSuccess(() =>
+  //     fetcheventRecommendations({event}),
   //   );
   //   this.configureRecommendationsAnimation();
-  //   this.setState({recommendedMovies});
+  //   this.setState({recommendedevents});
   // };
 
   configureDetailsAnimation() {
@@ -61,43 +62,53 @@ class MovieDetails extends React.PureComponent {
       delete: {type, property: opacity},
     });
   }
+  isInterested = id => {
+    const {user, isGuest} = this.props;
+    console.log(user);
+    if (user === null || isGuest == true) return false;
+    else {
+      const myInterested = user.data.interested;
+      return myInterested.indexOf(id) !== -1;
+    }
+  };
 
   render() {
-    const {movie} = this.props;
-    // const {detailedMovie, recommendedMovies} = this.state;
-    // const noRecommendedMovies =
-    //   recommendedMovies && recommendedMovies.length === 0;
+    const {event} = this.props;
 
+    // const {detailedevent, recommendedevents} = this.state;
+    // const noRecommendedevents =
+    //   recommendedevents && recommendedevents.length === 0;
     return (
       <View style={styles.container}>
-        <MovieBackdropWithTitle movie={movie} />
+        <EventBackdropWithTitle event={event} />
         <View style={styles.mh}>
           <View style={styles.timeDetail}>
-            <StartDay date={'2020-03-22'} />
-            <TimeAndShortAddress event={movie} />
+            <StartDay date={event.time[0]} />
+            <TimeAndShortAddress event={event} />
           </View>
-          {/* {detailedMovie && (
-            <MovieGenres style={styles.mb} detailedMovie={detailedMovie} />
+          {/* {detailedevent && (
+            <EventGenres style={styles.mb} detailedevent={detailedevent} />
           )} */}
-          <MovieDetailsButtons
-            id={movie._id}
-            phoneNumber={movie.phoneNumber}
-            location={movie.coordinates}
+          <EventDetailsButtons
+            interested={this.isInterested(event._id)}
+            id={event._id}
+            phoneNumber={event.phoneNumber}
+            location={event.coordinates}
           />
           <AppText style={styles.mb} type="headline">
             Дэлгэрэнгүй
           </AppText>
-          <AppText style={styles.overview}>{movie.description}</AppText>
-          {movie.gallery.length > 0 ? (
+          <AppText style={styles.overview}>{event.description}</AppText>
+          {event.gallery.length > 0 ? (
             <AppText style={styles.recommendationsTitle} type="headline">
               Холбоотой зурагууд
             </AppText>
           ) : null}
         </View>
 
-        {movie.gallery.length > 0 ? (
+        {event.gallery.length > 0 ? (
           <GalleryHorizontalFlatList
-            images={movie.gallery || []}
+            images={event.gallery || []}
             paddingLeft={styles.mh.marginHorizontal}
           />
         ) : null}
@@ -127,12 +138,17 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flex: 1,
   },
-  noMoviesContainer: {
+  noeventsContainer: {
     width: '100%',
-    height: MoviePreview.getPreviewHeight(),
+    height: EventPreview.getPreviewHeight(),
     justifyContent: 'center',
     alignItems: 'center',
   },
 });
 
-export default withRefetch(MovieDetails);
+const mapStateToProps = ({auth: {isGuest, user}}) => ({isGuest, user});
+
+export default connect(
+  mapStateToProps,
+  {},
+)(withRefetch(EventDetails));

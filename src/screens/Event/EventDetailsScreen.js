@@ -1,14 +1,14 @@
 import React from 'react';
 import _ from 'lodash';
 import {View, StyleSheet, Animated} from 'react-native';
-import MovieDetails from '../../components/MovieComponents/MovieDetails';
+import EventDetails from '../../components/EventComponents/EventDetails';
 import OpacityHeader from '../../components/OpacityHeader';
 import withDelayedLoading from '../../components/hoc/withDelayedLoading';
 import Theme from '../../Theme';
 
 let id = 0;
 
-class MovieDetailsScreen extends React.Component {
+class EventDetailsScreen extends React.Component {
   // static navigationOptions = ({navigation}) => ({
   //   header: ({scene}) => (
   //     <OpacityHeader
@@ -71,9 +71,7 @@ class MovieDetailsScreen extends React.Component {
   render() {
     const {route} = this.props;
     const {yScrollOffset} = this.state;
-    const {movie} = route.params;
-    console.log(movie);
-
+    const {event} = route.params;
     return (
       <View style={styles.container}>
         <Animated.ScrollView
@@ -87,7 +85,7 @@ class MovieDetailsScreen extends React.Component {
               useNativeDriver: true,
             },
           )}>
-          <MovieDetails movie={movie} />
+          <EventDetails event={event} />
         </Animated.ScrollView>
       </View>
     );
@@ -101,4 +99,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default withDelayedLoading(MovieDetailsScreen);
+export default withDelayedLoading(EventDetailsScreen);

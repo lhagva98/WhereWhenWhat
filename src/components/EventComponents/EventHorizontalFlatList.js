@@ -2,43 +2,44 @@ import React from 'react';
 import {View, FlatList} from 'react-native';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
-import MoviePreview from './MoviePreview';
-import {movieKeyExtractor} from '../../utils/movies';
+import EventPreview from './EventPreview';
+import {eventKeyExtractor} from '../../utils/events';
 import Theme from '../../Theme';
 
-class MoviesHorizontalList extends React.PureComponent {
+class EventsHorizontalList extends React.PureComponent {
   renderPreview = ({item, index}) => (
-    <MoviePreview movie={item} highPriority={index < 5} />
+    <EventPreview event={item} highPriority={index < 5} />
   );
   renderEmptyContainer = () =>
-    _.times(4).map((r, i) => <MoviePreview key={i} />);
+    _.times(4).map((r, i) => <EventPreview key={i} />);
   renderHeader = () => (
     <View style={{width: this.props.paddingLeft - Theme.spacing.tiny}} />
   );
 
   render() {
-    const {movies, paddingLeft} = this.props;
-    const isEmpty = movies.length === 0;
+    const {events, paddingLeft} = this.props;
+    console.log(events);
+    const isEmpty = events.length === 0;
 
     return (
       <FlatList
         horizontal
-        data={movies}
+        data={events}
         scrollEnabled={!isEmpty}
         initialNumToRender={3}
         showsHorizontalScrollIndicator={false}
         ListHeaderComponent={paddingLeft && this.renderHeader}
         ListEmptyComponent={this.renderEmptyContainer}
-        keyExtractor={movieKeyExtractor}
+        keyExtractor={eventKeyExtractor}
         renderItem={this.renderPreview}
       />
     );
   }
 }
 
-MoviesHorizontalList.propTypes = {
-  movies: PropTypes.array.isRequired,
+EventsHorizontalList.propTypes = {
+  events: PropTypes.array.isRequired,
   paddingLeft: PropTypes.number,
 };
 
-export default MoviesHorizontalList;
+export default EventsHorizontalList;

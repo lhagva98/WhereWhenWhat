@@ -29,13 +29,13 @@ class GalleryImage extends React.PureComponent {
     );
   }
 
-  renderEmptyMovieView = () => <View style={styles.image} />;
+  renderEmptyeventView = () => <View style={styles.image} />;
 
   render() {
     const {image, style} = this.props;
     return (
       <View style={[styles.container, style]}>
-        {image ? this.renderEvent() : this.renderEmptyMovieView()}
+        {image ? this.renderEvent() : this.renderEmptyeventView()}
       </View>
     );
   }
@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
 });
 
 GalleryImage.propTypes = {
-  movie: PropTypes.object,
+  event: PropTypes.object,
   highPriority: PropTypes.bool,
   style: PropTypes.any,
 };

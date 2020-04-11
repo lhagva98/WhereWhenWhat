@@ -1,7 +1,7 @@
 import React from 'react';
 import {withMappedNavigationParams} from 'react-navigation-props-mapper';
 import {View, StyleSheet} from 'react-native';
-import MovieFetchList from '../../components/MovieComponents/MovieFetchList';
+import MovieFetchList from '../../components/EventComponents/EventFetchList';
 import withDelayedLoading from '../../components/hoc/withDelayedLoading';
 import Theme from '../../Theme';
 

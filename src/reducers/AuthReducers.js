@@ -16,13 +16,11 @@ export default (state = INITIAL_STATE, action) => {
       return {...INITIAL_STATE, user: action.payload};
     case Auth.LOGIN_USER_FAIL:
       return {
-        ...state,
-        loading: false,
+        ...INITIAL_STATE,
       };
     case Auth.REGISTER_USER_FAIL:
       return {
-        ...state,
-        loading: false,
+        ...INITIAL_STATE,
       };
     case Auth.CREATE_GUEST_SESSION_SUCCESS:
       return {...INITIAL_STATE, isGuest: true, user: action.payload};
@@ -30,6 +28,25 @@ export default (state = INITIAL_STATE, action) => {
       return {...INITIAL_STATE};
     case Auth.USER_LOADED:
       return {...INITIAL_STATE, user: action.payload};
+    case Auth.USER_INFO_UPDATE:
+      return {
+        ...INITIAL_STATE,
+        user: {
+          ...state.user,
+          data: action.payload,
+        },
+      };
+    case Auth.UPDATE_INTERESTED:
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          data: {
+            ...state.user.data,
+            interested: action.payload,
+          },
+        },
+      };
     case Auth.LOG_OUT:
       return {...INITIAL_STATE};
     default:

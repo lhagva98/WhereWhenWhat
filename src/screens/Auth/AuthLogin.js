@@ -48,9 +48,9 @@ class AuthLogin extends React.Component {
       this.props.loginUser({
         username: this.state.username,
         password: this.state.password,
-        onSuccess: () => {
-          navigation.navigate(RouteNames.HomeStack);
-        },
+        // onSuccess: () => {
+        //   navigation.navigate(RouteNames.HomeStack);
+        // },
       });
     }
   };
@@ -203,6 +203,9 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = ({auth}) => auth;
 
-export default connect(mapStateToProps, {
-  loginUser,
-})(AuthLogin);
+export default connect(
+  mapStateToProps,
+  {
+    loginUser,
+  },
+)(AuthLogin);

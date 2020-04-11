@@ -2,7 +2,7 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {View, StyleSheet} from 'react-native';
 import {StatusBarSpacer} from '../components/common';
-import ExploreMovieDeck from '../components/MovieComponents/ExploreMovieDeck';
+import ExploreMovieDeck from '../components/EventComponents/ExploreEventDeck';
 import GuestInfo from '../components/GuestInfo';
 import withDelayedLoading from '../components/hoc/withDelayedLoading';
 import Theme from '../Theme';
@@ -17,7 +17,6 @@ class Explore extends React.Component {
     const {navigation, user} = this.props;
     navigation.setParams({user});
   }
-
   render() {
     const {user} = this.props;
 
@@ -27,7 +26,7 @@ class Explore extends React.Component {
           <GuestInfo />
         ) : (
           <View style={{flex: 1}}>
-            <StatusBarSpacer />
+            {/* <StatusBarSpacer /> */}
             <ExploreMovieDeck />
           </View>
         )}
@@ -45,4 +44,7 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = ({auth: {user}}) => ({user});
 
-export default connect(mapStateToProps, {})(withDelayedLoading(Explore));
+export default connect(
+  mapStateToProps,
+  {},
+)(withDelayedLoading(Explore));

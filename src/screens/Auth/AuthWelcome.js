@@ -24,13 +24,13 @@ class AuthWelcome extends React.Component {
   // };
   componentDidMount() {
     this._unsubscribe = this.props.navigation.addListener('focus', () => {
-      this.onScreenFocused();
+      // this.onScreenFocused();
     });
   }
 
   onLoginPress = () => this.props.navigation.navigate(RouteNames.AuthLogin);
   onSignUpPress = () => this.props.navigation.navigate(RouteNames.SignUp);
-  onScreenFocused = () => this.props.clearLoginFields();
+  // onScreenFocused = () => this.props.clearLoginFields();
   onGuestLoginPress = () => {
     const {createGuest, navigation} = this.props;
     createGuest({
@@ -54,10 +54,10 @@ class AuthWelcome extends React.Component {
               resizeMode="contain"
             />
             <AppText style={styles.welcomeText} type="title1">
-              Welcome to MovieSwiper
+              WHERNAT
             </AppText>
             <AppText style={styles.welcomeCaption} type="titleCaption">
-              Powered by The Movie Database
+              ШУТИС-MХТС Програм хангамж
             </AppText>
           </View>
           <View style={styles.buttonContainer}>
@@ -143,6 +143,7 @@ const mapStateToProps = ({auth}) => {
   return {loading};
 };
 
-export default connect(mapStateToProps, {createGuest})(
-  withDelayedLoading(AuthWelcome),
-);
+export default connect(
+  mapStateToProps,
+  {createGuest},
+)(withDelayedLoading(AuthWelcome));

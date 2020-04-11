@@ -3,12 +3,12 @@ import PropTypes from 'prop-types';
 import { View, StyleSheet, Animated, Image, TouchableWithoutFeedback } from 'react-native';
 import { AppText } from '../common';
 import InnerShadow from '../InnerShadow';
-import MovieScoreYear from './MovieScoreYear';
+import EventScoreYear from './EventScoreYear';
 import Theme from '../../Theme';
 
 const DETAILS_OPACITY = 0.9;
 
-class MovieCard extends React.PureComponent {
+class EventCard extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {
@@ -56,7 +56,7 @@ class MovieCard extends React.PureComponent {
 
   renderPosterImage() {
     const {
-      movie: { poster_path },
+      event: { poster_path },
       sourceUrlGetter
     } = this.props;
 
@@ -71,21 +71,21 @@ class MovieCard extends React.PureComponent {
     );
   }
 
-  renderMovieTitle() {
-    const { movie } = this.props;
+  rendereventTitle() {
+    const { event } = this.props;
     const { detailsVisibleAnimatedValue } = this.state;
 
     return (
       <Animated.View style={{ flex: 1, opacity: detailsVisibleAnimatedValue }}>
         <AppText style={styles.title} numberOfLines={1} type="title2">
-          {movie.title}
+          {event.title}
         </AppText>
       </Animated.View>
     );
   }
 
   renderDetails() {
-    const { movie } = this.props;
+    const { event } = this.props;
 
     return (
       <View>
@@ -93,8 +93,8 @@ class MovieCard extends React.PureComponent {
           style={[styles.detailsContainer, styles.bottomCurved, this.getDetailsAnimatedStyle()]}
         >
           <View style={{ padding: Theme.spacing.small }}>
-            <MovieScoreYear movie={movie} style={{ marginBottom: Theme.spacing.tiny }} />
-            <AppText numberOfLines={12}>{movie.overview}</AppText>
+            <EventScoreYear event={event} style={{ marginBottom: Theme.spacing.tiny }} />
+            <AppText numberOfLines={12}>{event.overview}</AppText>
           </View>
         </Animated.View>
       </View>
@@ -117,7 +117,7 @@ class MovieCard extends React.PureComponent {
                 size={100}
                 bottom
               />
-              {this.renderMovieTitle()}
+              {this.rendereventTitle()}
             </View>
             {!isFolded && this.renderDetails()}
           </View>
@@ -166,9 +166,9 @@ const styles = StyleSheet.create({
   }
 });
 
-MovieCard.propTypes = {
-  movie: PropTypes.object.isRequired,
+EventCard.propTypes = {
+  event: PropTypes.object.isRequired,
   disabled: PropTypes.bool
 };
 
-export default MovieCard;
+export default EventCard;

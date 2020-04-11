@@ -6,7 +6,7 @@ import BlockButton from '../components/BlockButton';
 import GuestInfo from '../components/GuestInfo';
 import withDelayedLoading from '../components/hoc/withDelayedLoading';
 import RouteNames from '../RouteNames';
-import {fetchFavoriteMovies, fetchWatchlistMovies} from '../api/movies';
+import {fetchFavoriteMovies, fetchWatchlistMovies} from '../api/events';
 import {
   getLibrarySettingsIcon,
   getLibraryWatchlistIcon,
@@ -28,7 +28,7 @@ class Library extends React.Component {
 
   onWatchlistPressed = () => {
     const {navigation} = this.props;
-    navigation.navigate(RouteNames.MovieListScreen, {
+    navigation.navigate(RouteNames.EventListScreen, {
       title: 'Watchlist',
       fetchFunction: fetchWatchlistMovies,
     });
@@ -36,7 +36,7 @@ class Library extends React.Component {
 
   onFavoritesPressed = () => {
     const {navigation} = this.props;
-    navigation.navigate(RouteNames.MovieListScreen, {
+    navigation.navigate(RouteNames.EventListScreen, {
       title: 'Favorite Movies',
       fetchFunction: fetchFavoriteMovies,
     });
@@ -82,4 +82,7 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = ({auth: {user}}) => ({user});
 
-export default connect(mapStateToProps, {})(withDelayedLoading(Library));
+export default connect(
+  mapStateToProps,
+  {},
+)(withDelayedLoading(Library));

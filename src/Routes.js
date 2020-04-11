@@ -8,13 +8,14 @@ import {navigationRef} from './RootNavigation';
 import Config from './Config';
 import {connect} from 'react-redux';
 import {View, StyleSheet, UIManager, Text} from 'react-native';
-import {loadUserIntoRedux, logOutUser} from './actions';
+import {logOutUser, loadUserCheckByToken} from './actions';
+import Icon from 'react-native-vector-icons/FontAwesome';
 import {
   getNavbarBrowseIcon,
   getNavbarExploreIcon,
   getNavbarLibraryIcon,
 } from './utils/icons';
-import {stGetUser} from './utils/storage';
+import {stGetUser, stGetUserToken} from './utils/storage';
 import AuthWelcome from './screens/Auth/AuthWelcome';
 import AuthLogin from './screens/Auth/AuthLogin';
 import SignUp from './screens/Auth/SignUp';
@@ -26,8 +27,9 @@ import Browse from './screens/Browse';
 import Explore from './screens/Explore';
 import Library from './screens/Library';
 // import Settings from './screens/Settings';
-import MoviesListScreen from './screens/Movie/MoviesListScreen';
-import MovieDetailsScreen from './screens/Movie/MovieDetailsScreen';
+import MoviesListScreen from './screens/Event/EventListScreen';
+import EventDetailsScreen from './screens/Event/EventDetailsScreen';
+import EventMap from './screens/Event/EventMap';
 
 // import NavbarWrapper from './components/NavbarWrapper';
 // import NavbarButtonWrapper from './components/NavbarButtonWrapper';
@@ -75,19 +77,20 @@ const BrowseStack = () => (
   <Stack.Navigator headerMode="none">
     <Stack.Screen name={'Browse.index'} component={Browse} />
     <Stack.Screen
-      name={RouteNames.MovieListScreen}
+      name={RouteNames.EventListScreen}
       component={MoviesListScreen}
     />
     <Stack.Screen
-      name={RouteNames.MovieDetailsScreen}
-      component={MovieDetailsScreen}
+      name={RouteNames.EventDetailsScreen}
+      component={EventDetailsScreen}
     />
+    <Stack.Screen name={RouteNames.Map} component={EventMap} />
   </Stack.Navigator>
 );
 const LibraryStack = () => {
   <Stack.Navigator headerMode="none">
     {/* <Stack.Screen name={RouteNames.Settings} component={Settings} /> */}
-    <Stack.Screen name={RouteNames.MovieListScreen} component={Library} />
+    <Stack.Screen name={RouteNames.EventListScreen} component={Library} />
     {/* <Stack.Screen
       name={RouteNames.MovieDetailsScreen}
       component={MovieDetailsScreen}
@@ -104,6 +107,13 @@ const BottomTabs = () => (
       activeBackgroundColor: Theme.colors.bottomNavbar,
       inactiveBackgroundColor: Theme.colors.bottomNavbar,
       activeTintColor: Theme.gray.lightest,
+      // activeTintColor: "#ff3333",
+      // inactiveTintColor:'black',
+      // labelStyle: {
+      //   fontSize: 18,
+      //   color: "black"
+      // },
+      showLabel: false,
       inactiveTintColor: Theme.gray.light,
       labelStyle: {...getFontStyleObject()},
       style: {
@@ -115,22 +125,22 @@ const BottomTabs = () => (
     <Tab.Screen
       name={TabNames.browse}
       component={BrowseStack}
-      // options={{
-      //   tabBarLabel: 'Home',
-      //   tabBarIcon: ({color, size}) => (
-      //     <Icon name="home" color={color} size={size} />
-      //   ),
-      // }}
+      options={{
+        tabBarLabel: 'Нүүр',
+        tabBarIcon: ({color, size}) => (
+          <Icon name="home" color={color} size={size} />
+        ),
+      }}
     />
     <Tab.Screen
       name={TabNames.explore}
       component={Explore}
-      // options={{
-      //   tabBarLabel: 'Home',
-      //   tabBarIcon: ({color, size}) => (
-      //     <Icon name="home" color={color} size={size} />
-      //   ),
-      // }}
+      options={{
+        tabBarLabel: 'Discount',
+        tabBarIcon: ({color, size}) => (
+          <Icon name="discount" color={color} size={size} />
+        ),
+      }}
     />
     <Tab.Screen
       name={TabNames.library}
@@ -178,7 +188,7 @@ const HomeStack = () => (
     <Stack.Screen name={RouteNames.BottomTabs} component={BottomTabs} />
   </Stack.Navigator>
 );
-const RootStack = ({user, loadUserIntoRedux}) => {
+const RootStack = ({user, loadUserCheckByToken}) => {
   const [loading, setLoading] = useState(true);
   // const [state, dispatch] = useReducer(
   //   (prevState, action) => {
@@ -281,8 +291,9 @@ const RootStack = ({user, loadUserIntoRedux}) => {
   };
   loadUser = async () => {
     const user = await stGetUser();
+    console.log(user);
     if (user) {
-      loadUserIntoRedux(user);
+      loadUserCheckByToken(user);
     }
     setLoading(false);
   };
@@ -325,6 +336,7 @@ const RootStack = ({user, loadUserIntoRedux}) => {
 // export default RootStack;
 const mapStateToProps = ({auth: {user}}) => ({user});
 
-export default connect(mapStateToProps, {loadUserIntoRedux, logOutUser})(
-  RootStack,
-);
+export default connect(
+  mapStateToProps,
+  {loadUserCheckByToken, logOutUser},
+)(RootStack);

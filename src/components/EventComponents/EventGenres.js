@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { AppText } from '../common';
 import Theme from '../../Theme';
 
-class MovieGenres extends React.PureComponent {
+class EventGenres extends React.PureComponent {
   generateGenresText = genres =>
     genres
       .map(g => g.name)
@@ -27,9 +27,9 @@ class MovieGenres extends React.PureComponent {
   }
 }
 
-MovieGenres.propTypes = {
+EventGenres.propTypes = {
   detailedMovie: PropTypes.object,
   style: PropTypes.any
 };
 
-export default MovieGenres;
+export default EventGenres;

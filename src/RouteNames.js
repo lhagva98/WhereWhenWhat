@@ -5,8 +5,9 @@ export default {
   AuthWelcome: 'AuthWelcome',
   AuthLogin: 'AuthLogin',
   Settings: 'Settings',
-  MovieListScreen: 'MoviesListScreen',
-  MovieDetailsScreen: 'MovieDetailsScreen',
+  EventListScreen: 'EventListScreen',
+  EventDetailsScreen: 'EventDetailsScreen',
+  Map: 'EventMap',
   BottomTabs: 'BottomTabs',
   SignUp: 'SignUp',
 };

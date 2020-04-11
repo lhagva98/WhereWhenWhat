@@ -11,17 +11,17 @@ import {
 } from '../../api/urls';
 import Theme from '../../Theme';
 
-class MovieBackdropWithTitle extends React.PureComponent {
+class EventBackdropWithTitle extends React.PureComponent {
   render() {
-    const {movie} = this.props;
+    const {event} = this.props;
 
     return (
       <View>
         <ProgressiveImage
           resizeMode="cover"
           style={styles.image}
-          source={{uri: getEventImageUrl(movie.image)}}
-          thumbnailSource={{uri: getEventImageUrl(movie.image)}}
+          source={{uri: getEventImageUrl(event.image)}}
+          thumbnailSource={{uri: getEventImageUrl(event.image)}}
         />
         <InnerShadow
           hexColor={Theme.colors.background}
@@ -30,7 +30,7 @@ class MovieBackdropWithTitle extends React.PureComponent {
           bottom
         />
         <View style={styles.titleWrapper}>
-          <AppText type="title2">{movie.name}</AppText>
+          <AppText type="title2">{event.name}</AppText>
         </View>
       </View>
     );
@@ -52,8 +52,8 @@ const styles = StyleSheet.create({
   },
 });
 
-MovieBackdropWithTitle.propTypes = {
-  movie: PropTypes.object.isRequired,
+EventBackdropWithTitle.propTypes = {
+  event: PropTypes.object.isRequired,
 };
 
-export default MovieBackdropWithTitle;
+export default EventBackdropWithTitle;

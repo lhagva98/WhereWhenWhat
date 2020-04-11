@@ -20,14 +20,12 @@ Theme.specifications = {
   statusBarHeight: getStatusBarHeight(),
   headerHeight: 54,
   bottomNavbarHeight: 50,
-
   smallIconSize: 20,
   iconSize: 30,
   largeIconSize: 40,
   hugeIconSize: 120,
   activityIndicatorSize: Config.isAndroid ? 60 : 'large',
   activitySmallIndicatorSize: Config.isAndroid ? 30 : 'small',
-
   posterAspectRation: 0.6667,
   backdropAspectRation: 1.78,
 };
@@ -60,7 +58,6 @@ const colors = {
   primary: '#00d474',
   primaryVariant: '#00af60',
   transparentBlack: 'rgba(0,0,0,0.6)',
-
   success: '#28a745',
   danger: '#dc3545',
   warning: '#ffc107',

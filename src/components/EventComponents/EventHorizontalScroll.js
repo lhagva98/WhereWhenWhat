@@ -1,36 +1,41 @@
 import React from 'react';
 import {View, StyleSheet} from 'react-native';
 import PropTypes from 'prop-types';
-import MoviesHorizontalFlatList from './MoviesHorizontalFlatList';
+import MoviesHorizontalFlatList from './EventHorizontalFlatList';
 import {AppText, AppButton} from '../common';
 import RouteNames from '../../RouteNames';
 import {getFontStyleObject} from '../../utils/font';
 import Theme from '../../Theme';
-
-class MoviesHorizontalScroll extends React.PureComponent {
+import {getMoreIcon} from '../../utils/icons';
+import TouchAble from '../../components/TouchAble';
+import * as RootNavigation from '../../RootNavigation';
+class EventHorizontalScroll extends React.PureComponent {
   onMorePress = () => {
-    const {title, fetchFunction, navigation} = this.props;
-    navigation.push(RouteNames.MovieListScreen, {title, fetchFunction});
+    const {title, fetchFunction} = this.props;
+    RootNavigation.navigate(RouteNames.EventListScreen, {title, fetchFunction});
   };
 
   render() {
-    const {title, movies, style} = this.props;
+    const {title, events, style} = this.props;
     return (
       <View style={[styles.container, style]}>
         <View style={styles.topWrapper}>
           <AppText style={styles.title} type="title2">
             {title}
           </AppText>
-          <AppButton
+          <TouchAble style={styles.moreButton} onPress={this.onMorePress}>
+            {getMoreIcon()}
+          </TouchAble>
+          {/* <AppButton
             onlyText
             style={styles.moreButton}
             textStyle={styles.moreButtonText}
             onPress={this.onMorePress}>
-            MORE
-          </AppButton>
+            ...
+          </AppButton> */}
         </View>
         <MoviesHorizontalFlatList
-          movies={movies}
+          events={events}
           paddingLeft={styles.title.marginLeft}
         />
       </View>
@@ -57,15 +62,15 @@ const styles = StyleSheet.create({
     padding: Theme.spacing.tiny,
   },
   moreButtonText: {
-    fontSize: 15,
+    fontSize: 30,
     ...getFontStyleObject({weight: 'SemiBold'}),
   },
 });
 
-MoviesHorizontalScroll.propTypes = {
+EventHorizontalScroll.propTypes = {
   movies: PropTypes.array.isRequired,
   title: PropTypes.string,
   fetchFunction: PropTypes.func,
 };
 
-export default MoviesHorizontalScroll;
+export default EventHorizontalScroll;
