@@ -1,35 +1,43 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import { View, ScrollView, StyleSheet } from 'react-native';
-import { logOutUser } from '../actions/AuthActions';
-import { AppText } from '../components/common';
+import {connect} from 'react-redux';
+import {View, ScrollView, StyleSheet} from 'react-native';
+import {logOutUser} from '../actions/AuthActions';
+import {AppText} from '../components/common';
 import BlockButton from '../components/BlockButton';
 import withDelayedLoading from '../components/hoc/withDelayedLoading';
+import Icon from 'react-native-vector-icons/FontAwesome5';
 import Theme from '../Theme';
-
+import isIOS from '../../src/utils/isIOS';
+import Header from '../components/Header';
+import {
+  getLibrarySettingsIcon,
+  getLibraryWatchlistIcon,
+  getLibraryFavoriteIcon,
+  getPasswordIcon,
+  getLogoutIcon,
+} from '../utils/icons';
 class Settings extends React.Component {
   onSignOutPress = () => {
-    const { navigation, logOutUser } = this.props;
-    logOutUser(navigation);
+    const {logOutUser} = this.props;
+    logOutUser();
   };
 
-  renderSectionTitle = title => (
-    <AppText style={styles.sectionTitle} type="headline">
-      {title}
-    </AppText>
-  );
-
   render() {
-    const { user } = this.props;
-
+    const {user, isGuest} = this.props;
     return (
       <View style={styles.container}>
+        <Header title="Хувийн Мэдээлэл" />
         <ScrollView>
-          {this.renderSectionTitle('Account')}
           <BlockButton
-            text="Sign Out"
-            subtext={`You are logged in as ${user.username || 'guest'}`}
-            color={Theme.colors.danger}
+            style={styles.button}
+            Icon={getPasswordIcon()}
+            text="Нууц үг солих"
+            onPress={this.onWatchlistPressed}
+          />
+          <BlockButton
+            Icon={getLogoutIcon()}
+            onPress={this.onWatchlistPressed}
+            text="Гарах"
             onPress={this.onSignOutPress}
           />
         </ScrollView>
@@ -41,18 +49,26 @@ class Settings extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Theme.colors.background
+    backgroundColor: Theme.colors.background,
+  },
+  button: {
+    height: 64,
   },
   sectionTitle: {
-    marginLeft: Theme.spacing.base,
-    marginVertical: Theme.spacing.tiny,
-    fontSize: 18
-  }
+    //marginLeft: Theme.spacing.base,
+    //  marginVertical: Theme.spacing.tiny,
+    paddingLeft: Theme.spacing.base,
+    paddingVertical: Theme.spacing.tiny,
+    width: '100%',
+    fontSize: 20,
+    backgroundColor: 'black',
+    height: Theme.specifications.headerHeight,
+  },
 });
 
-const mapStateToProps = ({ auth }) => ({ user: auth.user });
+const mapStateToProps = ({auth}) => ({user: auth.user, isGuest: auth.isGuest});
 
 export default connect(
   mapStateToProps,
-  { logOutUser }
+  {logOutUser},
 )(withDelayedLoading(Settings));

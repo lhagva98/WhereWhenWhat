@@ -2,6 +2,7 @@ export default {
   Splash: 'Splash',
   AuthStack: 'AuthStack',
   HomeStack: 'HomeStack',
+  Profile: 'ProfileStack',
   AuthWelcome: 'AuthWelcome',
   AuthLogin: 'AuthLogin',
   Settings: 'Settings',

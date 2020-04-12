@@ -40,7 +40,6 @@ class AuthLogin extends React.Component {
   onForgotPress = () => safeOpenURL(RESET_PASSWORD_URL);
 
   onLoginPress = () => {
-    const {navigation} = this.props;
     const {username, password} = this.state;
     const validate = Validation.loginForm(username, password);
     this.setState({validation: validate});

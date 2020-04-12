@@ -12,9 +12,13 @@ class MoviesListScreen extends React.Component {
 
   render() {
     const {fetchFunction} = this.props;
+    const {params} = this.props.route;
     return (
       <View style={styles.container}>
-        <MovieFetchList fetchFunction={fetchFunction} />
+        <MovieFetchList
+          title={params.title ?? ''}
+          fetchFunction={fetchFunction}
+        />
       </View>
     );
   }

@@ -18,15 +18,14 @@ class Explore extends React.Component {
     navigation.setParams({user});
   }
   render() {
-    const {user} = this.props;
+    const {isGuest} = this.props;
 
     return (
       <View style={styles.container}>
-        {user.isGuest ? (
+        {isGuest ? (
           <GuestInfo />
         ) : (
           <View style={{flex: 1}}>
-            {/* <StatusBarSpacer /> */}
             <ExploreMovieDeck />
           </View>
         )}
@@ -42,7 +41,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const mapStateToProps = ({auth: {user}}) => ({user});
+const mapStateToProps = ({auth: {isGuest}}) => ({isGuest});
 
 export default connect(
   mapStateToProps,

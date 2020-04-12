@@ -105,8 +105,8 @@ class MoviesFetchList extends React.Component {
     return isPaginationLoading ? <FooterLoading /> : null;
   };
 
-  renderMovieList = () => {
-    const {withRefresh, withPagination, ...props} = this.props;
+  renderEventList = () => {
+    const {withRefresh, withPagination, title, ...props} = this.props;
     const {events, refreshing, isPaginationLoading} = this.state;
     const refreshProps = withRefresh
       ? {refreshing, onRefresh: this.onRefresh}
@@ -122,6 +122,7 @@ class MoviesFetchList extends React.Component {
     return (
       <EventList
         events={events}
+        title={title}
         ListFooterComponent={this.renderListFooter}
         {...refreshProps}
         {...paginationProps}
@@ -136,7 +137,7 @@ class MoviesFetchList extends React.Component {
       <View style={styles.container}>
         {isInitialLoading
           ? this.renderLoadingIndicator()
-          : this.renderMovieList()}
+          : this.renderEventList()}
       </View>
     );
   }

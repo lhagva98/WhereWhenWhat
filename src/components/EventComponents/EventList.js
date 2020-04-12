@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {FlatList, StyleSheet} from 'react-native';
+import {FlatList, StyleSheet, View} from 'react-native';
 import InfoAbsoluteBlock from '../InfoAbsoluteBlock';
 import EventInlinePreview from './EventInlinePreview';
 import {eventKeyExtractor} from '../../utils/events';
 import {geteventListEmptyIcon} from '../../utils/icons';
-
+import Header from '../../components/Header';
 class EventList extends React.PureComponent {
   renderEmptyDefault = () => {
     const {emptyText, emptySubtext} = this.props;
@@ -28,18 +28,20 @@ class EventList extends React.PureComponent {
   renderevent = ({item: event}) => <EventInlinePreview event={event} />;
 
   rendereventList = () => {
-    const {events, ...props} = this.props;
-
+    const {events, title, ...props} = this.props;
     return (
-      <FlatList
-        data={events}
-        style={styles.list}
-        initialNumToRender={20}
-        maxToRenderPerBatch={20}
-        renderItem={this.renderevent}
-        keyExtractor={eventKeyExtractor}
-        {...props}
-      />
+      <View style={{flex: 1, width: '100%'}}>
+        <Header title={title} />
+        <FlatList
+          data={events}
+          style={styles.list}
+          initialNumToRender={20}
+          maxToRenderPerBatch={20}
+          renderItem={this.renderevent}
+          keyExtractor={eventKeyExtractor}
+          {...props}
+        />
+      </View>
     );
   };
 

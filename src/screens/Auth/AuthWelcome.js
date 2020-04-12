@@ -32,10 +32,11 @@ class AuthWelcome extends React.Component {
   onSignUpPress = () => this.props.navigation.navigate(RouteNames.SignUp);
   // onScreenFocused = () => this.props.clearLoginFields();
   onGuestLoginPress = () => {
-    const {createGuest, navigation} = this.props;
-    createGuest({
-      onSuccess: () => navigation.navigate(RouteNames.HomeStack),
-    });
+    const {createGuest} = this.props;
+    createGuest();
+    //   {
+    //   onSuccess: () => navigation.navigate(RouteNames.HomeStack),
+    //  }
   };
 
   render() {
@@ -57,7 +58,7 @@ class AuthWelcome extends React.Component {
               WHERNAT
             </AppText>
             <AppText style={styles.welcomeCaption} type="titleCaption">
-              ШУТИС-MХТС Програм хангамж
+              Event ийн мэдээлэлийг нэг дороос
             </AppText>
           </View>
           <View style={styles.buttonContainer}>

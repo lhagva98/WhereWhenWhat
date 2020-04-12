@@ -1,56 +1,50 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-// import { withNavigation } from 'react-navigation';
 import {View, StyleSheet, Animated} from 'react-native';
 import {AppText, TouchableScale} from './common';
 import {getHeaderBackIcon} from '../utils/icons';
+import {useNavigation} from '@react-navigation/native';
 import Theme from '../Theme';
-
-class Header extends React.PureComponent {
-  render() {
-    const {scene, navigation, backgroundStyle} = this.props;
-    // Get properties from static object navigationOptions
-    const navigationOptions = scene ? scene.descriptor.options : {};
-    const {title, headerLeft, headerRight} = navigationOptions;
-    const routeName = navigation ? navigation.state.routeName : '';
-    const routeIndex = scene ? scene.index : 0;
-
-    return (
-      <View style={styles.container}>
-        <Animated.View style={[styles.background, backgroundStyle]} />
-        <View style={styles.headerWrapper}>
-          <View style={styles.leftContainer}>
-            {headerLeft
-              ? headerLeft()
-              : routeIndex > 0 && (
-                  <TouchableScale
-                    activeOpacity={0.7}
-                    onPress={() => {
-                      navigation.goBack();
-                    }}>
-                    {getHeaderBackIcon()}
-                  </TouchableScale>
-                )}
-          </View>
-          <View style={styles.titleContainer}>
-            <AppText numberOfLines={1} type="header">
-              {title || routeName}
-            </AppText>
-          </View>
-          <View style={styles.rightContainer}>
-            {headerRight && headerRight()}
-          </View>
+const Header = props => {
+  const {backButton, title, activeOpacity} = props;
+  const navigation = useNavigation();
+  return (
+    <View style={[styles.container, activeOpacity && styles.activeOpacity]}>
+      <Animated.View style={[styles.background]} />
+      <View style={styles.headerWrapper}>
+        <View style={styles.leftContainer}>
+          {backButton && (
+            <TouchableScale
+              activeOpacity={0.7}
+              onPress={() => {
+                // alert('aa');
+                navigation.goBack();
+              }}>
+              {getHeaderBackIcon()}
+            </TouchableScale>
+          )}
+        </View>
+        <View style={styles.titleContainer}>
+          <AppText numberOfLines={1} type="header">
+            {title ?? ''}
+          </AppText>
         </View>
       </View>
-    );
-  }
-}
+    </View>
+  );
+};
 
 const styles = StyleSheet.create({
   container: {
-    height:
-      Theme.specifications.headerHeight + Theme.specifications.statusBarHeight,
+    height: Theme.specifications.headerHeight,
+    zIndex: 100,
   },
+  // activeOpacity: {
+  //   width: '100%',
+  //   opacity: 0.3,
+  //   position: 'absolute',
+  //   top: 0,
+  // },
   background: {
     ...StyleSheet.absoluteFillObject,
     backgroundColor: Theme.colors.header,
@@ -60,19 +54,19 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginTop: Theme.specifications.statusBarHeight,
+    // marginTop: Theme.specifications.statusBarHeight,
   },
   leftContainer: {
-    flex: 1,
     marginLeft: Theme.spacing.tiny,
-    overflow: 'hidden',
+    // overflow: 'hidden',
     flexDirection: 'row',
   },
   titleContainer: {
-    flex: 0,
-    maxWidth: '60%',
+    flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    // position: 'absolute',
+    // left: '30%',
   },
   rightContainer: {
     flex: 1,
@@ -82,7 +76,6 @@ const styles = StyleSheet.create({
 });
 
 Header.propTypes = {
-  scene: PropTypes.object.isRequired,
   backgroundStyle: PropTypes.any,
 };
 

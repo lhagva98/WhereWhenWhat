@@ -9,7 +9,10 @@ import Config from './Config';
 import {connect} from 'react-redux';
 import {View, StyleSheet, UIManager, Text} from 'react-native';
 import {logOutUser, loadUserCheckByToken} from './actions';
+import OpacityHeader from './components/OpacityHeader';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import IconEntypo from 'react-native-vector-icons/Entypo';
+import IconBadge from 'react-native-icon-badge';
 import {
   getNavbarBrowseIcon,
   getNavbarExploreIcon,
@@ -26,263 +29,189 @@ import RouteNames from './RouteNames';
 import Browse from './screens/Browse';
 import Explore from './screens/Explore';
 import Library from './screens/Library';
-// import Settings from './screens/Settings';
-import MoviesListScreen from './screens/Event/EventListScreen';
+import Settings from './screens/Settings';
+import EventListScreen from './screens/Event/EventListScreen';
 import EventDetailsScreen from './screens/Event/EventDetailsScreen';
 import EventMap from './screens/Event/EventMap';
-
-// import NavbarWrapper from './components/NavbarWrapper';
-// import NavbarButtonWrapper from './components/NavbarButtonWrapper';
-// import Header from './components/Header';
-// import {
-//   getNavbarBrowseIcon,
-//   getNavbarExploreIcon,
-//   getNavbarLibraryIcon,
-// } from './utils/icons';
+import Notification from './screens/Notification';
 import {getFontStyleObject} from './utils/font';
 // import {fromRightWithFade} from './utils/navigation';
 import Theme from './Theme';
-
-// const defaultHeaderObject = {
-//   header: props => <Header scene={props.scene} />,
-// };
-
-// const createDefaultStackNavigator = (screensObject, customOptions) =>
-//   createStackNavigator(screensObject, {
-//     defaultNavigationOptions: {...defaultHeaderObject},
-//     cardStyle: {
-//       backgroundColor: '#000',
-//     },
-//     headerMode: 'screen',
-//     transitionConfig: () => fromRightWithFade(),
-//     ...customOptions,
-//   });
-
-// // Navigation
-
-// const HomeStack = createStackNavigator(
-//   {[RouteNames.BottomTabs]: {screen: BottomTabs}},
-//   {defaultNavigationOptions: () => ({header: null})},
-// );
-
+import {getNoticationIcon} from './utils/icons';
 const TabNames = {
   browse: 'Browse',
   explore: 'Explore',
-  library: 'Library',
+  Profile: 'Profile',
+  Notication: 'Notication',
 };
 
-const Stack = createStackNavigator();
-const Tab = createBottomTabNavigator();
-const BrowseStack = () => (
-  <Stack.Navigator headerMode="none">
-    <Stack.Screen name={'Browse.index'} component={Browse} />
-    <Stack.Screen
-      name={RouteNames.EventListScreen}
-      component={MoviesListScreen}
-    />
-    <Stack.Screen
-      name={RouteNames.EventDetailsScreen}
-      component={EventDetailsScreen}
-    />
-    <Stack.Screen name={RouteNames.Map} component={EventMap} />
-  </Stack.Navigator>
-);
-const LibraryStack = () => {
-  <Stack.Navigator headerMode="none">
-    {/* <Stack.Screen name={RouteNames.Settings} component={Settings} /> */}
-    <Stack.Screen name={RouteNames.EventListScreen} component={Library} />
-    {/* <Stack.Screen
+const RootStack = ({user, loadUserCheckByToken, unreadMessagesCount}) => {
+  const Stack = createStackNavigator();
+  const Tab = createBottomTabNavigator();
+  const BrowseStack = () => (
+    <Stack.Navigator headerMode="none">
+      <Stack.Screen
+        name={'Browse.index'}
+        component={Browse}
+        options={{header: () => null}}
+      />
+      <Stack.Screen
+        name={RouteNames.EventListScreen}
+        component={EventListScreen}
+      />
+      <Stack.Screen
+        name={RouteNames.EventDetailsScreen}
+        component={EventDetailsScreen}
+        // options={({route}) => ({
+        //   header: ({navigation}) => (
+        //     <OpacityHeader
+        //       navigation={navigation}
+        //       absolute={true}
+        //       //style={{height: 45, width: '100%', backgroundColor: 'red'}}
+        //       route={route}
+        //       opacity={0.4}
+        //       // opacity={navigation.getParam('headerOpacity', 0)}
+        //     />
+        //   ),
+        // })}
+      />
+      <Stack.Screen name={RouteNames.Map} component={EventMap} />
+    </Stack.Navigator>
+  );
+  const ProfileStack = () => (
+    <Stack.Navigator headerMode="none">
+      <Stack.Screen
+        name={RouteNames.Settings}
+        component={Settings}
+        // options={({route}) => ({
+        //   header: ({navigation}) => (
+        //     <OpacityHeader
+        //       navigation={navigation}
+        //       absolute={false}
+        //       //style={{height: 45, width: '100%', backgroundColor: 'red'}}
+        //       route={route}
+        //       opacity={0.4}
+        //       // opacity={navigation.getParam('headerOpacity', 0)}
+        //     />
+        //   ),
+        // })}
+      />
+      {/* <Stack.Screen name={RouteNames.Settings} component={Library} /> */}
+      {/* <Stack.Screen
       name={RouteNames.MovieDetailsScreen}
       component={MovieDetailsScreen}
     /> */}
-  </Stack.Navigator>;
-};
+    </Stack.Navigator>
+  );
 
-// [RouteNames.MovieListScreen]: MoviesListScreen,
-// [RouteNames.MovieDetailsScreen]: MovieDetailsScreen
+  // [RouteNames.MovieListScreen]: MoviesListScreen,
+  // [RouteNames.MovieDetailsScreen]: MovieDetailsScreen
 
-const BottomTabs = () => (
-  <Tab.Navigator
-    tabBarOptions={{
-      activeBackgroundColor: Theme.colors.bottomNavbar,
-      inactiveBackgroundColor: Theme.colors.bottomNavbar,
-      activeTintColor: Theme.gray.lightest,
-      // activeTintColor: "#ff3333",
-      // inactiveTintColor:'black',
-      // labelStyle: {
-      //   fontSize: 18,
-      //   color: "black"
-      // },
-      showLabel: false,
-      inactiveTintColor: Theme.gray.light,
-      labelStyle: {...getFontStyleObject()},
-      style: {
-        borderTopColor: Theme.colors.bottomNavbar,
-        height: Theme.specifications.bottomNavbarHeight,
-        backgroundColor: Theme.colors.bottomNavbar,
-      },
-    }}>
-    <Tab.Screen
-      name={TabNames.browse}
-      component={BrowseStack}
-      options={{
-        tabBarLabel: 'Нүүр',
-        tabBarIcon: ({color, size}) => (
-          <Icon name="home" color={color} size={size} />
-        ),
-      }}
-    />
-    <Tab.Screen
-      name={TabNames.explore}
-      component={Explore}
-      options={{
-        tabBarLabel: 'Discount',
-        tabBarIcon: ({color, size}) => (
-          <Icon name="discount" color={color} size={size} />
-        ),
-      }}
-    />
-    <Tab.Screen
-      name={TabNames.library}
-      component={Library}
-      // options={{
-      //   tabBarLabel: 'Home',
-      //   tabBarIcon: ({color, size}) => (
-      //     <Icon name="home" color={color} size={size} />
-      //   ),
-      // }}
-    />
+  const BottomTabs = () => (
+    <Tab.Navigator
+      tabBarOptions={{
+        activeBackgroundColor: Theme.colors.bottomNavbar,
+        inactiveBackgroundColor: Theme.colors.bottomNavbar,
+        activeTintColor: Theme.gray.lightest,
+        showLabel: false,
+        inactiveTintColor: Theme.gray.light,
+        labelStyle: {...getFontStyleObject()},
+        style: {
+          borderTopColor: Theme.colors.bottomNavbar,
+          height: Theme.specifications.bottomNavbarHeight,
+          backgroundColor: Theme.colors.bottomNavbar,
+        },
+      }}>
+      <Tab.Screen
+        name={TabNames.browse}
+        component={BrowseStack}
+        options={{
+          tabBarLabel: 'Нүүр',
+          tabBarIcon: ({color, size}) => (
+            <Icon name="calendar" color={color} size={size} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name={TabNames.explore}
+        component={Explore}
+        options={{
+          tabBarLabel: 'Discount',
+          tabBarIcon: ({color, size}) => (
+            <Icon name="discount" color={color} size={size} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name={TabNames.Notication}
+        component={Notification}
+        options={{
+          tabBarLabel: 'Нүүр',
+          tabBarIcon: ({color, size}) => (
+            <View
+              style={{
+                flex: 1,
+                justifyContent: 'center',
+                alignItems: 'center',
+                flexDirection: 'row',
+              }}>
+              <IconBadge
+                MainElement={
+                  <IconEntypo name="bell" color={color} size={size} />
+                }
+                BadgeElement={
+                  <Text style={{color: '#FFFFFF', fontSize: 10}}>
+                    {unreadMessagesCount}
+                  </Text>
+                }
+                IconBadgeStyle={{
+                  width: 20,
+                  height: 20,
+                  backgroundColor: Theme.colors.danger,
+                  position: 'absolute',
+                  right: -15,
+                  top: -10,
+                  zIndex: -1,
+                }}
+                Hidden={unreadMessagesCount == 0}
+              />
+            </View>
+          ),
+        }}
+      />
+      <Tab.Screen
+        name={TabNames.Profile}
+        component={ProfileStack}
+        options={{
+          tabBarLabel: 'Тохиргоо',
+          tabBarIcon: ({color, size}) => (
+            <Icon name="cog" color={color} size={size} />
+          ),
+        }}
+      />
+    </Tab.Navigator>
+  );
 
-    {/* <Tab.Screen
-      name="EventStack"
-      component={EventStack}
-      options={{
-        tabBarLabel: "Events",
-        tabBarIcon: ({ color, size }) => (
-          <Icon name="search" color={color} size={size} />
-        )
-      }}
-    />
-    <Tab.Screen
-      name="MyEventStack"
-      component={MyEventStack}
-      options={{
-        tabBarLabel: "My Events",
-        tabBarIcon: ({ color, size }) => (
-          <Icon name="user" color={color} size={size} />
-        )
-      }}
-    /> */}
-  </Tab.Navigator>
-);
-
-const AuthStack = () => (
-  <Stack.Navigator headerMode="none">
-    <Stack.Screen name={RouteNames.AuthWelcome} component={AuthWelcome} />
-    <Stack.Screen name={RouteNames.AuthLogin} component={AuthLogin} />
-    <Stack.Screen name={RouteNames.SignUp} component={SignUp} />
-  </Stack.Navigator>
-);
-const HomeStack = () => (
-  <Stack.Navigator headerMode="none">
-    <Stack.Screen name={RouteNames.BottomTabs} component={BottomTabs} />
-  </Stack.Navigator>
-);
-const RootStack = ({user, loadUserCheckByToken}) => {
+  const AuthStack = () => (
+    <Stack.Navigator headerMode="none">
+      <Stack.Screen name={RouteNames.AuthWelcome} component={AuthWelcome} />
+      <Stack.Screen name={RouteNames.AuthLogin} component={AuthLogin} />
+      <Stack.Screen name={RouteNames.SignUp} component={SignUp} />
+    </Stack.Navigator>
+  );
+  const HomeStack = () => (
+    <Stack.Navigator headerMode="none">
+      <Stack.Screen name={RouteNames.BottomTabs} component={BottomTabs} />
+    </Stack.Navigator>
+  );
   const [loading, setLoading] = useState(true);
-  // const [state, dispatch] = useReducer(
-  //   (prevState, action) => {
-  //     switch (action.type) {
-  //       case 'RESTORE_TOKEN':
-  //         return {
-  //           ...prevState,
-  //           isAuthenticated: action.isAuthenticated,
-  //           data: action.data,
-  //           isLoading: false,
-  //         };
-  //       case 'SIGN_IN':
-  //         return {
-  //           ...prevState,
-  //           isSignout: false,
-  //           isAuthenticated: true,
-  //         };
-  //       case 'SIGN_OUT':
-  //         return {
-  //           ...prevState,
-  //           isSignout: true,
-  //           isAuthenticated: false,
-  //         };
-  //     }
-  //   },
-  //   {
-  //     isLoading: true,
-  //     isSignout: false,
-  //     isAuthenticated: false,
-  //     data: {},
-  //   },
-  // );
   useEffect(() => {
     const bootstrapAsync = async () => {
       this.configureLayoutAnimation();
-      // // this.configureAxios();
       this.loadUser();
-      // let userToken, isAuthenticated;
-      // try {
-      //   //alert("aa")
-      //   // AsyncStorage.clear();
-      //   userToken = await AsyncStorage.getItem("userToken");
-      //   isAuthenticated = userToken ? true : false;
-      //   //  alert(userToken);
-      // } catch (e) {
-      //   // Restoring token failed
-      // }
-      // let data = {};
-      // let rootData = {};
-      // let events = await db.collection("events").get();
-      // let categories = await db.collection("categories").get();
-      // categories.forEach(doc => {
-      //   const item = doc.data();
-      //   data[doc.id] = {
-      //     info: item,
-      //     content: []
-      //   };
-      // });
-      // events.forEach(doc => {
-      //   const eventItem = doc.data();
-      //   data[eventItem.category].content.push(eventItem);
-      // });
-      // Object.keys(data).forEach(key => {
-      //   let item = data[key];
-      //   if (rootData[item.info.parent] == null) {
-      //     rootData[item.info.parent] = {
-      //       count: 0,
-      //       content: []
-      //     };
-      //   } else {
-      //     rootData[item.info.parent].content.push(item);
-      //     rootData[item.info.parent].count += item.content.length;
-      //   }
-      // });
-      // const parents = ["sport", "music"];
-      // parents.map((key, index) => {
-      //   if (rootData[key] == null) {
-      //     rootData[key] = {
-      //       count: 0,
-      //       content: []
-      //     };
-      //   }
-      // });
-      // subscribeToAuthChanges(this.onAuthStateChanged);
-      // dispatch({
-      //   type: "RESTORE_TOKEN",
-      //   isAuthenticated: isAuthenticated,
-      //   data: rootData
-      // });
     };
-
     bootstrapAsync();
   }, []);
-
   configureLayoutAnimation = () => {
     if (Config.isAndroid) {
       UIManager.setLayoutAnimationEnabledExperimental &&
@@ -297,22 +226,6 @@ const RootStack = ({user, loadUserCheckByToken}) => {
     }
     setLoading(false);
   };
-
-  // configureAxios = () => {
-  //   // const {navigation, logOutUser} = this.props;
-
-  //   axios.interceptors.response.use(
-  //     response => response,
-  //     error => {
-  //       if (error.response && error.response.status === 401) {
-  //         Config.logGeneral &&
-  //           console.log('Unauthorized request, logging out ...');
-  //         // logOutUser(navigation);
-  //       }
-  //       return Promise.reject(error);
-  //     },
-  //   );
-  // };
   if (loading) {
     return <Splash />;
   }
@@ -334,7 +247,10 @@ const RootStack = ({user, loadUserCheckByToken}) => {
 };
 
 // export default RootStack;
-const mapStateToProps = ({auth: {user}}) => ({user});
+const mapStateToProps = ({auth: {user, unreadMessagesCount}}) => ({
+  user,
+  unreadMessagesCount,
+});
 
 export default connect(
   mapStateToProps,

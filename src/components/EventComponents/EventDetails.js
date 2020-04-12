@@ -11,6 +11,8 @@ import withRefetch from '../hoc/withRefetch';
 import StartDay from './StartDay';
 import TimeAndShortAddress from './TimeAndShortAddress';
 import GalleryHorizontalFlatList from './GalleryHorizontalFlatList';
+import Header from '../Header';
+import isIOS from '../../utils/isIOS';
 import {
   fetcheventDetailedInfo,
   fetcheventRecommendations,
@@ -80,6 +82,7 @@ class EventDetails extends React.PureComponent {
     //   recommendedevents && recommendedevents.length === 0;
     return (
       <View style={styles.container}>
+        {isIOS && <Header backButton activeOpacity />}
         <EventBackdropWithTitle event={event} />
         <View style={styles.mh}>
           <View style={styles.timeDetail}>

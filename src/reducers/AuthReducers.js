@@ -4,6 +4,7 @@ const INITIAL_STATE = {
   loading: false,
   isGuest: false,
   user: null,
+  unreadMessagesCount: 5,
 };
 
 export default (state = INITIAL_STATE, action) => {

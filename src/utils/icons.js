@@ -1,4 +1,5 @@
 import React from 'react';
+import {View} from 'react-native';
 import IconEntypo from 'react-native-vector-icons/Entypo';
 import IconFeather from 'react-native-vector-icons/Feather';
 import IconAntDesign from 'react-native-vector-icons/AntDesign';
@@ -33,6 +34,18 @@ export const getMyInterestedIcon = interested => (
     size={iconSize}
   />
 );
+export const getNoticationIcon = ({color, size, unreadMessagesCount}) => {
+  <View style={{flex: 1, backgroundColor: 'red'}}>
+    <IconFeather name="user" color={'red'} size={20} />
+  </View>;
+};
+export const getLogoutIcon = () => (
+  <IconFeather name="log-out" color={lightestColor} size={smallIconSize} />
+);
+export const getPasswordIcon = () => (
+  <IconFeather name="key" color={lightestColor} size={smallIconSize} />
+);
+
 export const getCallIcon = () => (
   <IconMaterialIcons name={'call'} color={lightestColor} size={iconSize} />
 );
@@ -126,14 +139,6 @@ export const getMovieCardChevron = isChevronUp => (
 // ------------------------------------------------------
 // Library
 // ------------------------------------------------------
-export const getLibrarySettingsIcon = () => (
-  <IconFontAwesome
-    name="cog"
-    color={lightestColor}
-    size={iconSize * 0.9}
-    style={{padding: tiny}}
-  />
-);
 
 export const getLibraryWatchlistIcon = () => (
   <IconMaterialIcons

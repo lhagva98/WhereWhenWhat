@@ -11,3 +11,4 @@ export const Auth = {
   UPDATE_INTERESTED: 'auth/UPDATE_INTERESTED',
   LOG_OUT: 'auth/LOG_OUT',
 };
+export const Notication = {};

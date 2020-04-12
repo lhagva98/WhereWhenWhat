@@ -165,7 +165,7 @@ const styles = StyleSheet.create({
   inputContainer: {
     flexDirection: 'row',
     borderRadius: 4,
-    marginHorizontal: Theme.spacing.small,
+    //marginHorizontal: Theme.spacing.small,
     backgroundColor: Theme.gray.lightest,
   },
   touchableInputIcon: {
@@ -178,6 +178,7 @@ const styles = StyleSheet.create({
     color: Theme.gray.darkest,
     paddingVertical: Config.isAndroid ? 0 : 12,
     ...Theme.typography.body,
+    height: 40,
     ...getFontStyleObject(),
   },
   labelTouchable: {

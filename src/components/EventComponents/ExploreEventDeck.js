@@ -26,24 +26,21 @@ class ExploreEventDeck extends React.PureComponent {
   };
 
   componentDidMount = async () => {
-    this.timerIds = [];
-    this.isFillingExploreevents = false;
-    this.isResolvingRequests = false;
-
-    let eventsToExplore = null;
-    [eventsToExplore, this.exploredevents, this.requests] = await Promise.all([
-      stGetCurrentEvents(),
-      stGetExploredEvents(),
-      stGetRequests(),
-    ]);
-
-    eventsToExplore = eventsToExplore || [];
-    this.exploredevents = this.exploredevents || {};
-    this.requests = this.requests || [];
-
-    this.setState({events: eventsToExplore});
-    this.runtimeLaunch(this.checkeventsFullness);
-    this.checkRequests();
+    // this.timerIds = [];
+    // this.isFillingExploreevents = false;
+    // this.isResolvingRequests = false;
+    // let eventsToExplore = null;
+    // [eventsToExplore, this.exploredevents, this.requests] = await Promise.all([
+    //   stGetCurrentEvents(),
+    //   stGetExploredEvents(),
+    //   stGetRequests(),
+    // ]);
+    // eventsToExplore = eventsToExplore || [];
+    // this.exploredevents = this.exploredevents || {};
+    // this.requests = this.requests || [];
+    // this.setState({events: eventsToExplore});
+    // this.runtimeLaunch(this.checkeventsFullness);
+    // this.checkRequests();
   };
 
   componentWillUnmount() {

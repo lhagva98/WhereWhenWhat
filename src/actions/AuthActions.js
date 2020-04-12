@@ -53,14 +53,12 @@ export const loadUserCheckByToken = user => async dispatch => {
     });
 };
 const showToast = msg => chest.get('toast')(msg);
-export const logOutUser = navigation => dispatch => {
-  stRemoveUser();
-  stRemoveCurrentMovies();
-  navigation.navigate(RouteNames.AuthStack);
+export const logOutUser = () => dispatch => {
   dispatch({type: Auth.LOG_OUT});
+  stRemoveAll();
 };
 
-export const createGuest = ({onSuccess}) => async dispatch => {
+export const createGuest = () => async dispatch => {
   dispatch({type: Auth.ATTEMPING});
   try {
     const guest = {
@@ -80,7 +78,6 @@ export const createGuest = ({onSuccess}) => async dispatch => {
     );
 
     showToast('Амжилттай Нэвтэрлээ');
-    onSuccess();
   } catch (error) {
     showToast && showToast('Алдаа гарлаа');
     dispatch({type: Auth.CREATE_GUEST_SESSION_FAIL});

@@ -6,7 +6,7 @@ import BlockButton from '../components/BlockButton';
 import GuestInfo from '../components/GuestInfo';
 import withDelayedLoading from '../components/hoc/withDelayedLoading';
 import RouteNames from '../RouteNames';
-import {fetchFavoriteMovies, fetchWatchlistMovies} from '../api/events';
+import {fetchFavoriteMovies, fetchWatchlistEvents} from '../api/events';
 import {
   getLibrarySettingsIcon,
   getLibraryWatchlistIcon,
@@ -30,7 +30,7 @@ class Library extends React.Component {
     const {navigation} = this.props;
     navigation.navigate(RouteNames.EventListScreen, {
       title: 'Watchlist',
-      fetchFunction: fetchWatchlistMovies,
+      fetchFunction: fetchWatchlistEvents,
     });
   };
 
@@ -47,7 +47,7 @@ class Library extends React.Component {
 
     return (
       <View style={styles.container}>
-        {!user.isGuest ? (
+        {user.isGuest ? (
           <GuestInfo />
         ) : (
           <View>
