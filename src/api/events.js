@@ -15,6 +15,7 @@ import {
   getEventRecommendationsUrl,
   getPopularEventsUrl,
   ChangeStatusInterested,
+  GetMyInterestedEvents,
 } from '../api/urls';
 import {parseEventsArray} from '../utils/events';
 import Config from '../Config';
@@ -28,7 +29,6 @@ export const fetchEventAccountState = ({Event}, reqParams = {}) =>
       EventId: Event.id,
       sessionId: getCurrentUsersSessionId(),
     });
-
     try {
       const {data} = await axios.get(url, reqParams);
       resolve(data);
@@ -68,6 +68,12 @@ export const fetchEventRecommendations = ({Event, page = 1}, reqParams = {}) =>
 // ------------------------------------------------------
 // Event actions
 // ------------------------------------------------------
+export const getMyInterestedEvents = () => {
+  return fetchHandler(GetMyInterestedEvents, {
+    method: 'get',
+    headers: headers(true),
+  });
+};
 
 export const changeEventInterestedStatus = (id, status) => {
   console.log(id, status);
@@ -138,6 +144,7 @@ export const changeEventWatchlistStatus = (
 // ------------------------------------------------------
 // Events lists
 // ------------------------------------------------------
+
 export const getSectionFetchFunctionFromUrlGetter = urlGetter => (
   params,
   reqParams,
@@ -151,12 +158,12 @@ export const getSearchFetchFunctionFromQuery = query => ({page}) =>
 export const fetchSectionEvents = (urlGetter, {page}, reqParams = {}) =>
   new Promise(async (resolve, reject) => {
     const url = urlGetter({page});
+    console.log(url);
     try {
       // const {data} = await axios.get(url, reqParams);
       const data = await fetchHandler(url, {
         method: 'get',
-        headers: headers(true),
-        body: JSON.stringify(reqParams),
+        headers: headers(),
       });
 
       console.log(data.payload.results);

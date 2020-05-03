@@ -11,4 +11,8 @@ export const Auth = {
   UPDATE_INTERESTED: 'auth/UPDATE_INTERESTED',
   LOG_OUT: 'auth/LOG_OUT',
 };
-export const Notication = {};
+export const Notication = {
+  RECEIVE_NEW: 'notif/RECEIVE_NEW',
+  SEEN: 'notif/SEEN',
+  UPDATE_COUNT: 'notif/UPDATE_COUNT',
+};

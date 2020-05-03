@@ -8,7 +8,11 @@ import {navigationRef} from './RootNavigation';
 import Config from './Config';
 import {connect} from 'react-redux';
 import {View, StyleSheet, UIManager, Text} from 'react-native';
-import {logOutUser, loadUserCheckByToken} from './actions';
+import {
+  logOutUser,
+  loadUserCheckByToken,
+  updateUnreadMessagesCount,
+} from './actions';
 import OpacityHeader from './components/OpacityHeader';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import IconEntypo from 'react-native-vector-icons/Entypo';
@@ -24,8 +28,6 @@ import AuthLogin from './screens/Auth/AuthLogin';
 import SignUp from './screens/Auth/SignUp';
 import RouteNames from './RouteNames';
 
-// import AuthWelcome from './screens/Auth/AuthWelcome';
-// import AuthLogin from './screens/Auth/AuthLogin';
 import Browse from './screens/Browse';
 import Explore from './screens/Explore';
 import Library from './screens/Library';
@@ -35,175 +37,179 @@ import EventDetailsScreen from './screens/Event/EventDetailsScreen';
 import EventMap from './screens/Event/EventMap';
 import Notification from './screens/Notification';
 import {getFontStyleObject} from './utils/font';
-// import {fromRightWithFade} from './utils/navigation';
 import Theme from './Theme';
-import {getNoticationIcon} from './utils/icons';
 const TabNames = {
   browse: 'Browse',
   explore: 'Explore',
   Profile: 'Profile',
   Notication: 'Notication',
 };
+const Stack = createStackNavigator();
+const Tab = createBottomTabNavigator();
+const BrowseStack = () => (
+  <Stack.Navigator headerMode="none">
+    <Stack.Screen
+      name={'Browse.index'}
+      component={Browse}
+      options={{header: () => null}}
+    />
+    <Stack.Screen
+      name={RouteNames.EventListScreen}
+      component={EventListScreen}
+    />
+    <Stack.Screen
+      name={RouteNames.EventDetailsScreen}
+      component={EventDetailsScreen}
+      // options={({route}) => ({
+      //   header: ({navigation}) => (
+      //     <OpacityHeader
+      //       navigation={navigation}
+      //       absolute={true}
+      //       //style={{height: 45, width: '100%', backgroundColor: 'red'}}
+      //       route={route}
+      //       opacity={0.4}
+      //       // opacity={navigation.getParam('headerOpacity', 0)}
+      //     />
+      //   ),
+      // })}
+    />
+    <Stack.Screen name={RouteNames.Map} component={EventMap} />
+  </Stack.Navigator>
+);
+const ProfileStack = () => (
+  <Stack.Navigator headerMode="none">
+    <Stack.Screen
+      name={RouteNames.Settings}
+      component={Settings}
+      // options={({route}) => ({
+      //   header: ({navigation}) => (
+      //     <OpacityHeader
+      //       navigation={navigation}
+      //       absolute={false}
+      //       //style={{height: 45, width: '100%', backgroundColor: 'red'}}
+      //       route={route}
+      //       opacity={0.4}
+      //       // opacity={navigation.getParam('headerOpacity', 0)}
+      //     />
+      //   ),
+      // })}
+    />
+    {/* <Stack.Screen name={RouteNames.Settings} component={Library} /> */}
+    {/* <Stack.Screen
+    name={RouteNames.MovieDetailsScreen}
+    component={MovieDetailsScreen}
+  /> */}
+  </Stack.Navigator>
+);
 
-const RootStack = ({user, loadUserCheckByToken, unreadMessagesCount}) => {
-  const Stack = createStackNavigator();
-  const Tab = createBottomTabNavigator();
-  const BrowseStack = () => (
-    <Stack.Navigator headerMode="none">
-      <Stack.Screen
-        name={'Browse.index'}
-        component={Browse}
-        options={{header: () => null}}
-      />
-      <Stack.Screen
-        name={RouteNames.EventListScreen}
-        component={EventListScreen}
-      />
-      <Stack.Screen
-        name={RouteNames.EventDetailsScreen}
-        component={EventDetailsScreen}
-        // options={({route}) => ({
-        //   header: ({navigation}) => (
-        //     <OpacityHeader
-        //       navigation={navigation}
-        //       absolute={true}
-        //       //style={{height: 45, width: '100%', backgroundColor: 'red'}}
-        //       route={route}
-        //       opacity={0.4}
-        //       // opacity={navigation.getParam('headerOpacity', 0)}
-        //     />
-        //   ),
-        // })}
-      />
-      <Stack.Screen name={RouteNames.Map} component={EventMap} />
-    </Stack.Navigator>
-  );
-  const ProfileStack = () => (
-    <Stack.Navigator headerMode="none">
-      <Stack.Screen
-        name={RouteNames.Settings}
-        component={Settings}
-        // options={({route}) => ({
-        //   header: ({navigation}) => (
-        //     <OpacityHeader
-        //       navigation={navigation}
-        //       absolute={false}
-        //       //style={{height: 45, width: '100%', backgroundColor: 'red'}}
-        //       route={route}
-        //       opacity={0.4}
-        //       // opacity={navigation.getParam('headerOpacity', 0)}
-        //     />
-        //   ),
-        // })}
-      />
-      {/* <Stack.Screen name={RouteNames.Settings} component={Library} /> */}
-      {/* <Stack.Screen
-      name={RouteNames.MovieDetailsScreen}
-      component={MovieDetailsScreen}
-    /> */}
-    </Stack.Navigator>
-  );
+// [RouteNames.MovieListScreen]: MoviesListScreen,
+// [RouteNames.MovieDetailsScreen]: MovieDetailsScreen
 
-  // [RouteNames.MovieListScreen]: MoviesListScreen,
-  // [RouteNames.MovieDetailsScreen]: MovieDetailsScreen
+const AuthStack = () => (
+  <Stack.Navigator headerMode="none">
+    <Stack.Screen name={RouteNames.AuthWelcome} component={AuthWelcome} />
+    <Stack.Screen name={RouteNames.AuthLogin} component={AuthLogin} />
+    <Stack.Screen name={RouteNames.SignUp} component={SignUp} />
+  </Stack.Navigator>
+);
+const HomeStack = () => (
+  <Stack.Navigator headerMode="none">
+    <Stack.Screen name={RouteNames.BottomTabs} component={bottomTab} />
+  </Stack.Navigator>
+);
+const BottomTabs = ({unreadMessagesCount}) => (
+  <Tab.Navigator
+    tabBarOptions={{
+      activeBackgroundColor: Theme.colors.bottomNavbar,
+      inactiveBackgroundColor: Theme.colors.bottomNavbar,
+      activeTintColor: Theme.gray.lightest,
+      showLabel: false,
+      inactiveTintColor: Theme.gray.light,
+      labelStyle: {...getFontStyleObject()},
+      style: {
+        borderTopColor: Theme.colors.bottomNavbar,
+        height: Theme.specifications.bottomNavbarHeight,
+        backgroundColor: Theme.colors.bottomNavbar,
+      },
+    }}>
+    <Tab.Screen
+      name={TabNames.browse}
+      component={BrowseStack}
+      options={{
+        tabBarLabel: 'Нүүр',
+        tabBarIcon: ({color, size}) => (
+          <Icon name="calendar" color={color} size={size} />
+        ),
+      }}
+    />
+    <Tab.Screen
+      name={TabNames.explore}
+      component={Explore}
+      options={{
+        tabBarLabel: 'Discount',
+        tabBarIcon: ({color, size}) => (
+          <Icon name="check" color={color} size={size} />
+        ),
+      }}
+    />
+    <Tab.Screen
+      name={TabNames.Notication}
+      component={Notification}
+      options={{
+        tabBarLabel: 'Нүүр',
+        tabBarIcon: ({color, size}) => (
+          <View
+            style={{
+              flex: 1,
+              justifyContent: 'center',
+              alignItems: 'center',
+              flexDirection: 'row',
+            }}>
+            <IconBadge
+              MainElement={<IconEntypo name="bell" color={color} size={size} />}
+              BadgeElement={
+                <Text style={{color: '#FFFFFF', fontSize: 10}}>
+                  {unreadMessagesCount}
+                </Text>
+              }
+              IconBadgeStyle={{
+                width: 20,
+                height: 20,
+                backgroundColor: Theme.colors.danger,
+                position: 'absolute',
+                right: -15,
+                top: -10,
+                zIndex: -1,
+              }}
+              Hidden={unreadMessagesCount == 0}
+            />
+          </View>
+        ),
+      }}
+    />
+    <Tab.Screen
+      name={TabNames.Profile}
+      component={ProfileStack}
+      options={{
+        tabBarLabel: 'Тохиргоо',
+        tabBarIcon: ({color, size}) => (
+          <Icon name="cog" color={color} size={size} />
+        ),
+      }}
+    />
+  </Tab.Navigator>
+);
 
-  const BottomTabs = () => (
-    <Tab.Navigator
-      tabBarOptions={{
-        activeBackgroundColor: Theme.colors.bottomNavbar,
-        inactiveBackgroundColor: Theme.colors.bottomNavbar,
-        activeTintColor: Theme.gray.lightest,
-        showLabel: false,
-        inactiveTintColor: Theme.gray.light,
-        labelStyle: {...getFontStyleObject()},
-        style: {
-          borderTopColor: Theme.colors.bottomNavbar,
-          height: Theme.specifications.bottomNavbarHeight,
-          backgroundColor: Theme.colors.bottomNavbar,
-        },
-      }}>
-      <Tab.Screen
-        name={TabNames.browse}
-        component={BrowseStack}
-        options={{
-          tabBarLabel: 'Нүүр',
-          tabBarIcon: ({color, size}) => (
-            <Icon name="calendar" color={color} size={size} />
-          ),
-        }}
-      />
-      <Tab.Screen
-        name={TabNames.explore}
-        component={Explore}
-        options={{
-          tabBarLabel: 'Discount',
-          tabBarIcon: ({color, size}) => (
-            <Icon name="discount" color={color} size={size} />
-          ),
-        }}
-      />
-      <Tab.Screen
-        name={TabNames.Notication}
-        component={Notification}
-        options={{
-          tabBarLabel: 'Нүүр',
-          tabBarIcon: ({color, size}) => (
-            <View
-              style={{
-                flex: 1,
-                justifyContent: 'center',
-                alignItems: 'center',
-                flexDirection: 'row',
-              }}>
-              <IconBadge
-                MainElement={
-                  <IconEntypo name="bell" color={color} size={size} />
-                }
-                BadgeElement={
-                  <Text style={{color: '#FFFFFF', fontSize: 10}}>
-                    {unreadMessagesCount}
-                  </Text>
-                }
-                IconBadgeStyle={{
-                  width: 20,
-                  height: 20,
-                  backgroundColor: Theme.colors.danger,
-                  position: 'absolute',
-                  right: -15,
-                  top: -10,
-                  zIndex: -1,
-                }}
-                Hidden={unreadMessagesCount == 0}
-              />
-            </View>
-          ),
-        }}
-      />
-      <Tab.Screen
-        name={TabNames.Profile}
-        component={ProfileStack}
-        options={{
-          tabBarLabel: 'Тохиргоо',
-          tabBarIcon: ({color, size}) => (
-            <Icon name="cog" color={color} size={size} />
-          ),
-        }}
-      />
-    </Tab.Navigator>
-  );
+const mapStateToPropsBottomTab = ({notif: {unreadMessagesCount}}) => ({
+  unreadMessagesCount,
+});
 
-  const AuthStack = () => (
-    <Stack.Navigator headerMode="none">
-      <Stack.Screen name={RouteNames.AuthWelcome} component={AuthWelcome} />
-      <Stack.Screen name={RouteNames.AuthLogin} component={AuthLogin} />
-      <Stack.Screen name={RouteNames.SignUp} component={SignUp} />
-    </Stack.Navigator>
-  );
-  const HomeStack = () => (
-    <Stack.Navigator headerMode="none">
-      <Stack.Screen name={RouteNames.BottomTabs} component={BottomTabs} />
-    </Stack.Navigator>
-  );
+const bottomTab = connect(
+  mapStateToPropsBottomTab,
+  {},
+)(BottomTabs);
+
+const RootStack = ({user, loadUserCheckByToken}) => {
   const [loading, setLoading] = useState(true);
   useEffect(() => {
     const bootstrapAsync = async () => {
@@ -247,7 +253,7 @@ const RootStack = ({user, loadUserCheckByToken, unreadMessagesCount}) => {
 };
 
 // export default RootStack;
-const mapStateToProps = ({auth: {user, unreadMessagesCount}}) => ({
+const mapStateToProps = ({auth: {user}, notif: {unreadMessagesCount}}) => ({
   user,
   unreadMessagesCount,
 });

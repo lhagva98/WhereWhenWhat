@@ -28,12 +28,15 @@ class Settings extends React.Component {
       <View style={styles.container}>
         <Header title="Хувийн Мэдээлэл" />
         <ScrollView>
-          <BlockButton
-            style={styles.button}
-            Icon={getPasswordIcon()}
-            text="Нууц үг солих"
-            onPress={this.onWatchlistPressed}
-          />
+          {!isGuest && (
+            <BlockButton
+              style={styles.button}
+              Icon={getPasswordIcon()}
+              text="Нууц үг солих"
+              onPress={this.onWatchlistPressed}
+            />
+          )}
+
           <BlockButton
             Icon={getLogoutIcon()}
             onPress={this.onWatchlistPressed}

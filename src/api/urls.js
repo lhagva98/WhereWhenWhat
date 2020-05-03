@@ -2,7 +2,7 @@ export const REGISTRATION_URL = 'https://www.theeventdb.org/account/signup';
 export const RESET_PASSWORD_URL =
   'https://www.theeventdb.org/account/reset-password';
 
-export const ROOT_URL = 'http://10.0.2.2:5000';
+export const ROOT_URL = 'http://192.168.8.105:5000';
 const withKey = url => `${ROOT_URL}${url}`;
 
 // Account
@@ -16,6 +16,7 @@ export const USER_INFO = withKey('/user/info');
 //EVENT ACTION
 
 export const ChangeStatusInterested = withKey('/user/changeInterested');
+export const GetMyInterestedEvents = withKey('/user/MyInterestEvents');
 
 export const VALIDATE_TOKEN_WITH_LOGIN = withKey(
   '/authentication/token/validate_with_login',
@@ -57,15 +58,14 @@ export const getSportEventUrl = ({page = 1}) =>
   `${withKey('/user/events')}?categoryName=Sport&page=${page}`;
 export const getMusicEventUrl = ({page = 1}) =>
   `${withKey('/user/events')}?categoryName=Music&page=${page}`;
-
 export const getTrendingWeeklyeventsUrl = ({page = 1}) =>
   `${withKey('/trending/event/week')}&page=${page}`;
 
 // events Account State
-export const getFavoriteeventUrl = ({accountId, sessionId, page = 1}) =>
-  `${withKey(
-    `/account/${accountId}/favorite/events`,
-  )}&session_id=${sessionId}&page=${page}`;
+
+export const getMyInterestedEventsUrl = ({page = 1}) =>
+  `${withKey('/user/MyInterested')}?page=${page}`;
+
 export const getWatchlistUrl = ({accountId, sessionId, page = 1}) =>
   `${withKey(
     `/account/${accountId}/watchlist/events`,

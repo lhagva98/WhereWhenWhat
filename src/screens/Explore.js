@@ -5,6 +5,7 @@ import {StatusBarSpacer} from '../components/common';
 import ExploreMovieDeck from '../components/EventComponents/ExploreEventDeck';
 import GuestInfo from '../components/GuestInfo';
 import withDelayedLoading from '../components/hoc/withDelayedLoading';
+import MyInterestedEvent from '../components/EventComponents/EventMyInterestedList';
 import Theme from '../Theme';
 
 class Explore extends React.Component {
@@ -26,7 +27,7 @@ class Explore extends React.Component {
           <GuestInfo />
         ) : (
           <View style={{flex: 1}}>
-            <ExploreMovieDeck />
+            <MyInterestedEvent />
           </View>
         )}
       </View>

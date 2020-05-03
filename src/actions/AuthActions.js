@@ -1,4 +1,4 @@
-import {Auth} from './types';
+import {Auth, Notication} from './types';
 import {
   validateUsername,
   validatePassword,
@@ -16,7 +16,6 @@ import {getTmdbErrorMessage} from '../api/codes';
 import RouteNames from '../RouteNames';
 import Config from '../Config';
 import chest from '../api/chest';
-export const clearLoginFields = () => ({type: Auth.CLEAR_LOGIN_FIELDS});
 
 export const updateInterested = interested => async dispatch => {
   console.log(interested);
@@ -44,6 +43,13 @@ export const loadUserCheckByToken = user => async dispatch => {
         payload: res.payload.user,
       });
       showToast('Welcome back');
+
+      setTimeout(() => {
+        dispatch({
+          type: Notication.UPDATE_COUNT,
+          payload: 1,
+        });
+      }, 4000);
     })
     .catch(err => {
       console.log(err);
@@ -64,20 +70,17 @@ export const createGuest = () => async dispatch => {
     const guest = {
       token: null,
       data: {
-        name: 'Guest',
+        name: 'GUEST',
         email: 'guest@gmail.com',
       },
     };
-    setTimeout(
-      () =>
-        dispatch({
-          type: Auth.CREATE_GUEST_SESSION_SUCCESS,
-          payload: createUser(guest),
-        }),
-      2000,
-    );
-
-    showToast('Амжилттай Нэвтэрлээ');
+    setTimeout(() => {
+      dispatch({
+        type: Auth.CREATE_GUEST_SESSION_SUCCESS,
+        payload: createUser(guest),
+      }),
+        showToast('Амжилттай Нэвтэрлээ');
+    }, 2000);
   } catch (error) {
     showToast && showToast('Алдаа гарлаа');
     dispatch({type: Auth.CREATE_GUEST_SESSION_FAIL});
@@ -90,7 +93,7 @@ export const loginUser = ({
   //onSuccess,
 }) => async dispatch => {
   dispatch({type: Auth.ATTEMPING});
-
+  console.log(username, password);
   login({email: username, password: password})
     .then(res => {
       dispatch({
@@ -127,17 +130,14 @@ export const RegisterAccount = ({
   onSuccess,
 }) => async dispatch => {
   dispatch({type: Auth.ATTEMPING});
-
+  console.log(email, password);
   SignUp({email: email, password: password, name: name})
     .then(res => {
       dispatch({
         type: Auth.REGISTER_USER_SUCCESS,
         payload: createUser({token: res.payload.token, data: res.payload.user}),
       });
-
       showToast('Амжилттай бүртгэгдлээ');
-      // showToast1('Амжилттай бүртгэгдлээ');
-      // showToast('Амжилттай бүртгэгдлээ');
       onSuccess();
     })
     .catch(err => {

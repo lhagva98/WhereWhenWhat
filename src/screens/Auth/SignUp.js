@@ -15,9 +15,11 @@ import TouchAble from '../../components/TouchAble';
 import {RegisterAccount} from '../../actions';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import {AppButton, PageSpinner} from '../../components/common';
+import RouteNames from '../../RouteNames';
 import Theme from '../../Theme';
 import SignUpInput from '../../components/SignUpInput';
 import Validation from '../../utils/validators';
+import Header from '../../components/Header';
 const SignUp = props => {
   const [name, setName] = useState('');
   const [isValidated, setValidate] = useState(false);
@@ -63,6 +65,7 @@ const SignUp = props => {
     <KeyboardAvoidingView
       style={styles.containerView}
       behavior={isIOS ? 'padding  ' : null}>
+      <Header title="Бүртгүүлэх хэсэг " />
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={styles.formContainer}>
           <SignUpInput
@@ -130,4 +133,7 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = ({auth}) => auth;
 
-export default connect(mapStateToProps, {RegisterAccount})(SignUp);
+export default connect(
+  mapStateToProps,
+  {RegisterAccount},
+)(SignUp);

@@ -20,7 +20,7 @@ const BROWSE_SECTIONS = [
     fetchFunction: getFetchFunction(getSportEventUrl),
   },
   {
-    title: 'Sport2',
+    title: 'Дуу хөгжим',
     fetchFunction: getFetchFunction(getMusicEventUrl),
   },
   // {
@@ -40,7 +40,6 @@ class Browse extends React.Component {
       return obj;
     }, {});
     console.log(sectionsEvents);
-
     this.state = {
       isInitialSearch: true,
       isSearchBlockFocused: false,
@@ -55,12 +54,17 @@ class Browse extends React.Component {
   componentDidMount() {
     // eslint-disable-next-line
     requestAnimationFrame(() => this.initialSectionsFetch());
-  }
 
+    if (this.props.isGuest)
+      setTimeout(() => {
+        alert(
+          'Хэрвээ та системд бүргүүлэж хэрэглэгч болсоноор илүү их боломжыг хүртэх болно. Таньд амжилт хүсье  ',
+        );
+      }, 3000);
+  }
   onSearchBlockFocus = () => this.setState({isSearchBlockFocused: true});
   onSearchBlockBlur = () => this.setState({isSearchBlockFocused: false});
   onSearchTextInputRef = ref => (this.searchTextInput = ref);
-
   onSearchTextChange = text => {
     const additionalProps = text.length === 0 ? {isInitialSearch: true} : {};
     this.setState({searchText: text, ...additionalProps});
@@ -149,7 +153,6 @@ class Browse extends React.Component {
           onDelayedInput={this.onDelayedInput}
           navigation={this.props.navigation}
         />
-
         <View style={styles.bottomContainer} {...this.panResponder.panHandlers}>
           {this.renderBrowseSections()}
           {isSearchBlockFocused && (
@@ -178,7 +181,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const mapStateToProps = ({auth: {user}}) => ({user});
+const mapStateToProps = ({auth}) => ({user: auth.user, isGuest: auth.isGuest});
 
 export default connect(
   mapStateToProps,

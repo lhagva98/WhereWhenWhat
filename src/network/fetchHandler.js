@@ -1,10 +1,10 @@
 import chest from '../api/chest';
 
-export default async function (url, options) {
+export default async function(url, options) {
   const fetch = chest.get('fetch');
   let status = null;
   return fetch(url, {...options})
-    .then((res) => {
+    .then(res => {
       console.log(res);
       status = res.status;
       try {
@@ -18,7 +18,7 @@ export default async function (url, options) {
         };
       }
     })
-    .then((json) => {
+    .then(json => {
       if (json.status === 'success') {
         return {
           status: status,
@@ -34,7 +34,8 @@ export default async function (url, options) {
         };
       }
     })
-    .catch((err) => {
+    .catch(err => {
+      console.log(err);
       let errorType = 'error';
       let errorMessage = 'Unknown error occurred!';
       if (typeof err.message === 'string') {

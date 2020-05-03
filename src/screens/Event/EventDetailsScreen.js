@@ -65,7 +65,7 @@ class EventDetailsScreen extends React.Component {
       outputRange: [0, outOpacity],
       extrapolate: 'clamp',
     });
-    navigation.setParams({headerOpacity});
+    // navigation.setParams({headerOpacity});
   }
 
   render() {
@@ -75,8 +75,8 @@ class EventDetailsScreen extends React.Component {
     return (
       <View style={styles.container}>
         <Animated.ScrollView
-          onLayout={this.onScrollLayout}
-          onContentSizeChange={this.onScrollContentSizeChange}
+          // onLayout={this.onScrollLayout}
+          // onContentSizeChange={this.onScrollContentSizeChange}
           showsVerticalScrollIndicator={false}
           scrollEventThrottle={1}
           onScroll={Animated.event(

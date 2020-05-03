@@ -1,7 +1,7 @@
 import Config from '../Config';
 
 const fonts = {
-  Raleway: {
+  Arial: {
     weights: {
       Bold: '700',
       SemiBold: '600',
@@ -12,7 +12,7 @@ const fonts = {
 };
 
 export const getFontStyleObject = (params = {}) => {
-  const {family = 'Raleway', weight = 'Regular', style} = params;
+  const {family = 'Arial', weight = 'Regular', style} = params;
   // eslint-disable-next-line
   if (__DEV__) checkOptions({family, weight, style});
   const {weights, styles} = fonts[family];

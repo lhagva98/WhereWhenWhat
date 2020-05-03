@@ -7,6 +7,7 @@ import {
   KeyboardAvoidingView,
   TouchableWithoutFeedback,
   Keyboard,
+  TextInput,
 } from 'react-native';
 import {loginUser} from '../../actions';
 import isIOS from '../../utils/isIOS';
@@ -19,6 +20,7 @@ import RouteNames from '../../RouteNames';
 import Theme from '../../Theme';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import Validation from '../../utils/validators';
+import Header from '../../components/Header';
 class AuthLogin extends React.Component {
   constructor(props) {
     super(props);
@@ -47,9 +49,6 @@ class AuthLogin extends React.Component {
       this.props.loginUser({
         username: this.state.username,
         password: this.state.password,
-        // onSuccess: () => {
-        //   navigation.navigate(RouteNames.HomeStack);
-        // },
       });
     }
   };
@@ -61,6 +60,7 @@ class AuthLogin extends React.Component {
       <KeyboardAvoidingView
         behavior={isIOS ? 'padding' : null}
         style={styles.container}>
+        <Header title="Нэвтрэх хэсэг" />
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <View style={styles.contentContainer}>
             <View style={styles.logoContainer}>
@@ -149,13 +149,13 @@ class AuthLogin extends React.Component {
             <AppButton style={styles.loginButton} onPress={this.onLoginPress}>
               НЭВТРЭХ
             </AppButton>
-            <AppButton
+            {/* <AppButton
               onlyText
               style={styles.forgotButton}
               color={Theme.gray.lighter}
               onPress={this.onForgotPress}>
               Forgot the password?
-            </AppButton>
+            </AppButton> */}
           </View>
         </TouchableWithoutFeedback>
 

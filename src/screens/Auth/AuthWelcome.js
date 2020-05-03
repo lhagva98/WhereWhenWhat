@@ -11,11 +11,11 @@ import RouteNames from '../../RouteNames';
 import Theme from '../../Theme';
 const WELCOME_IMAGES = [
   require('../../assets/img/welcome_background_images/jurassic_world.jpg'),
-  require('../../assets/img/welcome_background_images/spider_man.jpg'),
-  require('../../assets/img/welcome_background_images/shutter_island.jpg'),
-  require('../../assets/img/welcome_background_images/bumblebee.jpg'),
-  require('../../assets/img/welcome_background_images/the_godfather.jpg'),
-  require('../../assets/img/welcome_background_images/the_sixth_sense.jpg'),
+  // require('../../assets/img/welcome_background_images/spider_man.jpg'),
+  // require('../../assets/img/welcome_background_images/shutter_island.jpg'),
+  // require('../../assets/img/welcome_background_images/bumblebee.jpg'),
+  // require('../../assets/img/welcome_background_images/the_godfather.jpg'),
+  // require('../../assets/img/welcome_background_images/the_sixth_sense.jpg'),
 ];
 
 class AuthWelcome extends React.Component {
@@ -34,31 +34,27 @@ class AuthWelcome extends React.Component {
   onGuestLoginPress = () => {
     const {createGuest} = this.props;
     createGuest();
-    //   {
-    //   onSuccess: () => navigation.navigate(RouteNames.HomeStack),
-    //  }
   };
 
   render() {
     return (
       <View style={styles.container}>
-        <ImageOpacityCycler
+        {/* <ImageOpacityCycler
           style={StyleSheet.absoluteFill}
           images={WELCOME_IMAGES}
-        />
-
+        /> */}
         <View style={styles.content}>
           <View>
             <FastImage
               style={styles.tmdbLogo}
-              source={require('../../assets/img/tmdb.png')}
+              source={null}
               resizeMode="contain"
             />
             <AppText style={styles.welcomeText} type="title1">
               WHERNAT
             </AppText>
             <AppText style={styles.welcomeCaption} type="titleCaption">
-              Event ийн мэдээлэлийг нэг дороос
+              Арга хэмээний мэдээлэлийг нэг дороос
             </AppText>
           </View>
           <View style={styles.buttonContainer}>
@@ -126,7 +122,7 @@ const styles = StyleSheet.create({
   buttonContainer: {
     flex: 1,
     flexDirection: 'row',
-    backgroundColor: '#000000',
+    // backgroundColor: '#000000',
     padding: 25,
     marginTop: 10,
   },

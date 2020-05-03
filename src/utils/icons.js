@@ -56,6 +56,9 @@ export const getMoreIcon = () => (
   <IconFontAwesome name={'ellipsis-h'} color={lightestColor} size={20} />
 );
 
+export const emptyList = () => (
+  <IconFontAwesome name={'ellipsis-h'} color={lightestColor} size={20} />
+);
 export const getshareIcon = () => (
   <IconMaterialIcons name={'share'} color={lightestColor} size={iconSize} />
 );

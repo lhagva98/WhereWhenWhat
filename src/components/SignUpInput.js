@@ -61,8 +61,8 @@ const styles = StyleSheet.create({
   inputContainer: {
     borderRadius: 4,
     backgroundColor: 'rgba(250,250,250,0.5)',
-    flexDirection: 'row',
-    alignItems: 'center',
+    // flexDirection: 'row',
+    // alignItems: 'center',
   },
   inputContainerFocused: {
     backgroundColor: 'rgba(250,250,250,0.65)',

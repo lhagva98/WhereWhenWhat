@@ -53,9 +53,7 @@ class SearchBlock extends React.PureComponent {
   onSearchTextChange = text => {
     const {onChangeText, onDelayedInput, delayTime} = this.props;
     onChangeText(text);
-
     if (!onDelayedInput) return;
-
     clearTimeout(this.timerId);
     if (text.length > 0) {
       this.timerId = setTimeout(() => {
@@ -176,9 +174,9 @@ const styles = StyleSheet.create({
   input: {
     flex: 1,
     color: Theme.gray.darkest,
-    paddingVertical: Config.isAndroid ? 0 : 12,
+    paddingVertical: Config.isAndroid ? 0 : 2,
     ...Theme.typography.body,
-    height: 40,
+    height: 30,
     ...getFontStyleObject(),
   },
   labelTouchable: {
@@ -194,6 +192,7 @@ const styles = StyleSheet.create({
   labelText: {
     color: Theme.gray.darkest,
     ...getFontStyleObject({weight: 'Bold'}),
+    fontSize: 15,
   },
 });
 

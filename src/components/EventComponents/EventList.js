@@ -31,7 +31,7 @@ class EventList extends React.PureComponent {
     const {events, title, ...props} = this.props;
     return (
       <View style={{flex: 1, width: '100%'}}>
-        <Header title={title} />
+        <Header title={title} backButton />
         <FlatList
           data={events}
           style={styles.list}

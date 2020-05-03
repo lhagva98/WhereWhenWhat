@@ -41,7 +41,7 @@ class EventInlinePreview extends React.Component {
             style={{flex: 1}}
             name={event.name}
             date={event.time[0]}
-            interested={false}
+            interested={true}
           />
         </View>
       </TouchableHighlightView>
