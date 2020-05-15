@@ -25,10 +25,11 @@ class OverView extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
-    padding: 5,
-
-    // alignItems: 'center',
-    // justifyContent: 'center',
+    // padding: 5,
+    paddingRight: 0,
+    paddingTop: 5,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   name: {
     color: Theme.colors.info,

@@ -21,29 +21,44 @@ class EventInlinePreview extends React.Component {
   };
 
   render() {
-    const {event} = this.props;
+    const {event, reverse} = this.props;
+    console.log(reverse);
     return (
       <TouchableHighlightView
         scaleFactor={0.98}
         contentStyle={styles.container}
         onPress={this.onPress}>
-        <FastImage
-          style={styles.poster}
-          source={{uri: getEventImageUrl(event.image)}}
-        />
-        <View style={styles.textWrapper}>
-          {/* <AppText type="headline" numberOfLines={1} style={styles.title}>
-            {event.name}
-          </AppText>
-          <EventScoreYear event={event} /> */}
-          <StartDay date={event.time[0]} />
-          <Overview
-            style={{flex: 1}}
-            name={event.name}
-            date={event.time[0]}
-            interested={true}
-          />
-        </View>
+        {!reverse ? (
+          <>
+            <FastImage
+              style={styles.poster}
+              source={{uri: getEventImageUrl(event.image)}}
+            />
+            <View style={styles.textWrapper}>
+              <StartDay date={event.time[0]} />
+              <Overview
+                name={event.name}
+                date={event.time[0]}
+                interested={true}
+              />
+            </View>
+          </>
+        ) : (
+          <>
+            <View style={styles.textWrapper}>
+              <StartDay date={event.time[0]} />
+              <Overview
+                name={event.name}
+                date={event.time[0]}
+                interested={true}
+              />
+            </View>
+            <FastImage
+              style={styles.poster}
+              source={{uri: getEventImageUrl(event.image)}}
+            />
+          </>
+        )}
       </TouchableHighlightView>
     );
   }

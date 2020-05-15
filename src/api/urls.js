@@ -37,9 +37,14 @@ export const getTrendingDailyeventsUrl = ({page = 1}) =>
 export const getEventUrlByCategory = ({page = 1, category}) =>
   `${withKey('/user/events')}?category=${category}&page=${page}`;
 export const getSportEventUrl = ({page = 1}) =>
-  `${withKey('/user/events')}?categoryName=Information technology&page=${page}`;
+  `${withKey('/user/events')}?categoryName=Information_technology&page=${page}`;
+
 export const getMusicEventUrl = ({page = 1}) =>
-  `${withKey('/user/events')}?categoryName=Music&page=${page}`;
+  `${withKey('/user/events')}?categoryName=Sport&page=${page}`;
+
+export const getScholorShipUrl = ({page = 1}) =>
+  `${withKey('/user/events')}?categoryName=Scholorship&page=${page}`;
+
 export const getTrendingWeeklyeventsUrl = ({page = 1}) =>
   `${withKey('/trending/event/week')}&page=${page}`;
 

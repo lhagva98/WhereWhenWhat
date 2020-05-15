@@ -26,12 +26,18 @@ class EventsHorizontalList extends React.PureComponent {
         horizontal
         data={events}
         scrollEnabled={!isEmpty}
-        initialNumToRender={3}
+        initialNumToRender={4}
+        // windowSize={1}
         showsHorizontalScrollIndicator={false}
         ListHeaderComponent={paddingLeft && this.renderHeader}
         ListEmptyComponent={this.renderEmptyContainer}
         keyExtractor={eventKeyExtractor}
         renderItem={this.renderPreview}
+        ItemSeparatorComponent={() => {
+          return (
+            <View style={{height: '100%', width: 12, backgroundColor: ''}} />
+          );
+        }}
       />
     );
   }

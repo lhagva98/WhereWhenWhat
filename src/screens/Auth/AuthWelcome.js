@@ -53,7 +53,7 @@ class AuthWelcome extends React.Component {
               WHERNAT
             </AppText>
             <AppText style={styles.welcomeCaption} type="titleCaption">
-              Арга хэмээний мэдээлэлийг нэг дороос
+              Арга хэмжээний мэдээлэлийг нэг дороос
             </AppText>
           </View>
           <View style={styles.buttonContainer}>

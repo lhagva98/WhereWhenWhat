@@ -24,9 +24,6 @@ const {
 } = Theme.gray;
 const {tiny} = Theme.spacing;
 
-// ------------------------------------------------------
-// MovieDetailsButtons
-// ------------------------------------------------------
 export const getMyInterestedIcon = interested => (
   <IconMaterialIcons
     name={interested ? 'playlist-add-check' : 'playlist-add'}
@@ -39,11 +36,15 @@ export const getNoticationIcon = ({color, size, unreadMessagesCount}) => {
     <IconFeather name="user" color={'red'} size={20} />
   </View>;
 };
+
 export const getLogoutIcon = () => (
   <IconFeather name="log-out" color={lightestColor} size={smallIconSize} />
 );
 export const getPasswordIcon = () => (
   <IconFeather name="key" color={lightestColor} size={smallIconSize} />
+);
+export const getTimeIcon = () => (
+  <IconFontAwesome name="hourglass" color={lightestColor} size={12} />
 );
 
 export const getCallIcon = () => (

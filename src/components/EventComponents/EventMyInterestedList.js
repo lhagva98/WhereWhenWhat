@@ -53,7 +53,9 @@ class EventMyInterestedList extends React.Component {
       subtext=" "
     />
   );
-  renderevent = ({item: event}) => <EventInlinePreview event={event} />;
+  renderevent = ({item: event, index}) => (
+    <EventInlinePreview event={event} reverse={index % 2} />
+  );
   render() {
     const {isLoading, myInterestedEvents} = this.state;
 

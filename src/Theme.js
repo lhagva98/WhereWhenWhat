@@ -55,10 +55,10 @@ Theme.position = {
   },
 };
 const colors = {
-  primary: '#00d474',
+  primary: '#f40f48',
   primaryVariant: '#00af60',
   transparentBlack: 'rgba(0,0,0,0.6)',
-  success: '#28a745',
+  success: '#f40f48',
   danger: '#dc3545',
   warning: '#ffc107',
   info: '#17a2b8',

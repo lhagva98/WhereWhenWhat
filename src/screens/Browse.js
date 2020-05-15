@@ -18,13 +18,25 @@ import {
   getSectionFetchFunctionFromUrlGetter as getFetchFunction,
   getSearchFetchFunctionFromQuery,
 } from '../api/events';
-import {getSportEventUrl, getMusicEventUrl} from '../api/urls';
+import {
+  getSportEventUrl,
+  getMusicEventUrl,
+  getScholorShipUrl,
+} from '../api/urls';
 import Theme from '../Theme';
 
 const BROWSE_SECTIONS = [
   {
     title: 'Мэдээллийн технологи',
     fetchFunction: getFetchFunction(getSportEventUrl),
+  },
+  {
+    title: 'Спорт хөдөлгөөн',
+    fetchFunction: getFetchFunction(getMusicEventUrl),
+  },
+  {
+    title: 'Тэтгэлэгт хөтөлбөр',
+    fetchFunction: getFetchFunction(getScholorShipUrl),
   },
   // {
   //   title: 'Дуу хөгжим',

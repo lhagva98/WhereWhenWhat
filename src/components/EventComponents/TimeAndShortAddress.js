@@ -5,7 +5,7 @@ import EventUserScore from './EventUserScore';
 import {AppText} from '../common';
 import Theme from '../../Theme';
 import formatDate from '../../utils/formatDate';
-
+import {getTimeIcon} from '../../utils/icons';
 class TimeAndShortAddress extends React.Component {
   render() {
     const {event, style} = this.props;
@@ -19,8 +19,17 @@ class TimeAndShortAddress extends React.Component {
           </AppText>
           <AppText style={styles.shortAddress}>{event.shortAddress}</AppText>
         </View>
+        <View style={{flexDirection: 'row', alignItems: 'center'}}>
+          {getTimeIcon()}
+
+          <AppText>
+            {'  '}
+            {event.duration}
+          </AppText>
+        </View>
+
         <View>
-          <AppText>300 хэрэглэгч бүртгүүлсэн</AppText>
+          <AppText>{event.company}</AppText>
         </View>
 
         {/* <EventUserScore style={styles.score} event={event} />

@@ -10,8 +10,8 @@ export default class Validation {
   static signUpForm = (name, email, password) => {
     return {
       name: validateUsername(name),
-      password: validatePassword(password),
       email: validateEmail(email),
+      password: validatePassword(password),
     };
   };
 }
@@ -21,6 +21,8 @@ const validateUsername = username => {
   let msg = '';
   if (validator.isEmpty(username)) {
     msg = 'Нэвтрэх нэрээ оруулна уу';
+  } else if (username.length < 4) {
+    msg = 'Хэтэрхий богино байна.';
   } else {
     isValid = true;
   }
@@ -30,7 +32,7 @@ const validateUsername = username => {
 const validateEmail = email => {
   let isValid = false;
   let msg = '';
-  if (validator.isEmail(email)) {
+  if (!validator.isEmail(email)) {
     msg = 'Цахим шуудангаа оруулна уу';
   } else {
     isValid = true;
@@ -40,11 +42,10 @@ const validateEmail = email => {
 const validatePassword = password => {
   let isValid = false;
   let msg = '';
-
   if (validator.isEmpty(password)) {
-    msg = 'Please enter your password.';
+    msg = 'Нууц үгээ оруулна уу.';
   } else if (password.length < 4) {
-    msg = 'Password is too short.';
+    msg = 'Нууц үг хэтэрхий богино байна';
   } else {
     isValid = true;
   }

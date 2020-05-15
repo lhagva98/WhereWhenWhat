@@ -1,5 +1,12 @@
 import React from 'react';
-import {View, StyleSheet, Text, FlatList, TouchableOpacity} from 'react-native';
+import {
+  View,
+  StyleSheet,
+  Text,
+  FlatList,
+  TouchableOpacity,
+  Image,
+} from 'react-native';
 import CircleLoadingIndicator from '../CircleLoadingIndicator';
 import {getMyNotification} from '../../api/events';
 import {seenNotification} from '../../actions/NotifActions';
@@ -60,6 +67,10 @@ class MyNotification extends React.Component {
             event: item.event,
           })
         }>
+        <Image
+          source={{uri: 'https://bootdey.com/img/Content/avatar/avatar3.png'}}
+          style={styles.avatar}
+        />
         <View style={styles.content}>
           <View style={styles.mainContent}>
             <View style={styles.text}>
@@ -114,6 +125,8 @@ const styles = StyleSheet.create({
     width: 50,
     height: 50,
     borderRadius: 25,
+    borderWidth: 1,
+    borderColor: 'white',
   },
   text: {
     marginBottom: 5,

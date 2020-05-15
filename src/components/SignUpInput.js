@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {StyleSheet, TextInput, View} from 'react-native';
+import {StyleSheet, TextInput, View, Text} from 'react-native';
 import AppText from './common/AppText';
 import {getFontStyleObject} from '../utils/font';
 import Theme from '../Theme';
@@ -22,7 +22,7 @@ class SignUpInput extends React.PureComponent {
   };
 
   render() {
-    const {error, inputStyle, label, style, ...props} = this.props;
+    const {error, inputStyle, label, style, subtext, ...props} = this.props;
     const {focused} = this.state;
     return (
       <View style={[styles.container, style]}>
@@ -43,6 +43,7 @@ class SignUpInput extends React.PureComponent {
             style={[styles.input, inputStyle]}
           />
         </View>
+        {subtext.length > 0 && <Text style={styles.subtext}>{subtext}</Text>}
       </View>
     );
   }
@@ -81,6 +82,7 @@ const styles = StyleSheet.create({
   },
   subtext: {
     margin: Theme.spacing.xTiny,
+    color: Theme.colors.danger,
   },
   icon: {
     padding: 5,

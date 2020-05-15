@@ -25,7 +25,9 @@ class EventList extends React.PureComponent {
       : this.renderEmptyDefault();
   };
 
-  renderevent = ({item: event}) => <EventInlinePreview event={event} />;
+  renderevent = ({item: event}) => {
+    return <EventInlinePreview event={event} />;
+  };
 
   rendereventList = () => {
     const {events, title, ...props} = this.props;

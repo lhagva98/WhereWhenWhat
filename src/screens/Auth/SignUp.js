@@ -44,12 +44,15 @@ const SignUp = props => {
     },
   });
 
-  registerAccount = async () => {
+  registerAccount = () => {
     const {navigation} = props;
     const validate = Validation.signUpForm(name, email, password);
     setValidation(validate);
-    console.log(validate);
-    if (validate.name.isValid && validate.password.isValid) {
+    if (
+      validate.name.isValid &&
+      validate.password.isValid &&
+      validate.email.isValid
+    ) {
       props.RegisterAccount({
         name: name,
         password: password,
@@ -81,7 +84,7 @@ const SignUp = props => {
           />
           <SignUpInput
             label="Нэвтрэх нэр"
-            textContentType="emailAddress"
+            textContentType="nickname"
             style={styles.input}
             subtext={validation.email.msg}
             error={!validation.email.isValid}
