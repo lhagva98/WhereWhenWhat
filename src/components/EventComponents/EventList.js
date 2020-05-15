@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {FlatList, StyleSheet, View} from 'react-native';
+import {FlatList, StyleSheet, View, RefreshControl} from 'react-native';
 import InfoAbsoluteBlock from '../InfoAbsoluteBlock';
 import EventInlinePreview from './EventInlinePreview';
 import {eventKeyExtractor} from '../../utils/events';

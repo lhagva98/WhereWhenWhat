@@ -85,7 +85,7 @@ Theme.typography = {
     fontSize: 22,
   },
   title3: {
-    fontSize: 18,
+    fontSize: 15,
   },
   titleCaption: {
     fontSize: 16,

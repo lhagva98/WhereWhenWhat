@@ -16,8 +16,14 @@ class EventMyInterestedList extends React.Component {
       myInterestedEvents: [],
     };
   }
-  componentWillMount() {}
   componentDidMount() {
+    this._unsubscribe = this.props.navigation.addListener('focus', () =>
+      this.fetData(),
+    );
+    this.fetData();
+  }
+
+  fetData = () => {
     getMyInterestedEvents()
       .then(data => {
         console.log(data);
@@ -26,7 +32,7 @@ class EventMyInterestedList extends React.Component {
             isLoading: false,
             myInterestedEvents: data.payload.event,
           });
-        }, 2000);
+        }, 500);
       })
       .catch(error => {
         console.log(error);
@@ -34,14 +40,12 @@ class EventMyInterestedList extends React.Component {
           isLoading: false,
         });
       });
+  };
+
+  componentWillUnmount() {
+    this._unsubscribe();
   }
-  // renderEmptyResults = () => (
-  //   <InfoAbsoluteBlock
-  //     Icon={}
-  //     text="Төлөвлөгөө хоосон байна"
-  //     subtext=" "
-  //   />
-  // );
+
   renderLoading = () => (
     <InfoAbsoluteBlock
       Icon={<CircleLoadingIndicator color={Theme.gray.lightest} />}

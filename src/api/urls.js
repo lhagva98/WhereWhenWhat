@@ -1,14 +1,5 @@
-export const REGISTRATION_URL = 'https://www.theeventdb.org/account/signup';
-export const RESET_PASSWORD_URL =
-  'https://www.theeventdb.org/account/reset-password';
-
 export const ROOT_URL = 'http://192.168.8.105:5000';
 const withKey = url => `${ROOT_URL}${url}`;
-
-// Account
-// export const NEW_SESSION = withKey('/authentication/session/new');
-// export const NEW_GUEST_SESSION = withKey('/authentication/guest_session/new');
-// export const NEW_REQUEST_TOKEN = withKey('/authentication/token/new');
 export const LOGIN_URL = withKey('/user/login');
 export const SIGNUP_URL = withKey('/user/register');
 export const USER_INFO = withKey('/user/info');
@@ -17,26 +8,17 @@ export const USER_INFO = withKey('/user/info');
 
 export const ChangeStatusInterested = withKey('/user/changeInterested');
 export const GetMyInterestedEvents = withKey('/user/MyInterestEvents');
-
-export const VALIDATE_TOKEN_WITH_LOGIN = withKey(
-  '/authentication/token/validate_with_login',
-);
+export const GetMyNotications = withKey('/user/MyNotification');
 export const ACCOUNT_DETAILS = withKey('/account');
-
+export const SEEN_NOTIF = withKey('/user/seenNotification');
 // Images
-const BASE_IMAGE_URL = `${ROOT_URL}/files/eventImage/`;
-
-export const getEventImageUrl = imagePath => `${BASE_IMAGE_URL}${imagePath}`;
-
-export const getW45ImageUrl = imagePath => `${BASE_IMAGE_URL}w45${imagePath}`;
-export const getW92ImageUrl = imagePath => `${BASE_IMAGE_URL}w92${imagePath}`;
-export const getW185ImageUrl = imagePath => `${BASE_IMAGE_URL}w185${imagePath}`;
-export const getW300ImageUrl = imagePath => `${BASE_IMAGE_URL}w300${imagePath}`;
-export const getW500ImageUrl = imagePath => `${BASE_IMAGE_URL}w500${imagePath}`;
-export const getW780ImageUrl = imagePath => `${BASE_IMAGE_URL}w780${imagePath}`;
-export const getW1280ImageUrl = imagePath =>
-  `${BASE_IMAGE_URL}w1280${imagePath}`;
-
+const BASE_COVER_URL = `${ROOT_URL}/files/eventImage/`;
+const BASE_GALLERY_URL = `${ROOT_URL}/files/gallery/`;
+export const getEventImageUrl = imagePath => `${BASE_COVER_URL}${imagePath}`;
+export const getGalleryEventImageUrl = imagePath => {
+  console.log(`${BASE_GALLERY_URL}${imagePath}`);
+  return `${BASE_GALLERY_URL}${imagePath}`;
+};
 // event Details
 export const getDetailseventUrl = ({eventId}) => withKey(`/event/${eventId}`);
 export const geteventAccountStateUrl = ({eventId, sessionId}) =>
@@ -55,7 +37,7 @@ export const getTrendingDailyeventsUrl = ({page = 1}) =>
 export const getEventUrlByCategory = ({page = 1, category}) =>
   `${withKey('/user/events')}?category=${category}&page=${page}`;
 export const getSportEventUrl = ({page = 1}) =>
-  `${withKey('/user/events')}?categoryName=Sport&page=${page}`;
+  `${withKey('/user/events')}?categoryName=Information technology&page=${page}`;
 export const getMusicEventUrl = ({page = 1}) =>
   `${withKey('/user/events')}?categoryName=Music&page=${page}`;
 export const getTrendingWeeklyeventsUrl = ({page = 1}) =>
@@ -65,6 +47,9 @@ export const getTrendingWeeklyeventsUrl = ({page = 1}) =>
 
 export const getMyInterestedEventsUrl = ({page = 1}) =>
   `${withKey('/user/MyInterested')}?page=${page}`;
+
+// export const getMyNotificationUrl = ({page = 1}) =>
+//   `${withKey('/user/MyNotification')}?page=${page}`;
 
 export const getWatchlistUrl = ({accountId, sessionId, page = 1}) =>
   `${withKey(

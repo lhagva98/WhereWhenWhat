@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import FastImage from 'react-native-fast-image';
 import {View, StyleSheet, Dimensions, Text} from 'react-native';
 import {TouchableScale} from '../common';
-import {getEventImageUrl} from '../../api/urls';
+import {getGalleryEventImageUrl} from '../../api/urls';
 import Theme from '../../Theme';
 const {width} = Dimensions.get('window');
 const PREVIEW_WIDTH = width * 0.9;
@@ -22,7 +22,7 @@ class GalleryImage extends React.PureComponent {
       <FastImage
         style={styles.image}
         source={{
-          uri: getEventImageUrl(image),
+          uri: getGalleryEventImageUrl(image),
           priority,
         }}
       />

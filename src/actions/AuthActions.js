@@ -1,4 +1,4 @@
-import {Auth, Notication} from './types';
+import {Auth, Notication, MAIN} from './types';
 import {
   validateUsername,
   validatePassword,
@@ -12,6 +12,7 @@ import {
   stRemoveCurrentMovies,
 } from '../utils/storage';
 import {login, SignUp, userInfo} from '../api/auth';
+
 import {getTmdbErrorMessage} from '../api/codes';
 import RouteNames from '../RouteNames';
 import Config from '../Config';
@@ -42,14 +43,19 @@ export const loadUserCheckByToken = user => async dispatch => {
         type: Auth.USER_INFO_UPDATE,
         payload: res.payload.user,
       });
+      // dispatch({
+      //   type: MAIN.SET_CATEGORIES,
+      //   payload: [1, 3, 4, 5, 6],
+      // });
+
       showToast('Welcome back');
 
       setTimeout(() => {
         dispatch({
           type: Notication.UPDATE_COUNT,
-          payload: 1,
+          payload: res.payload.user.unseen,
         });
-      }, 4000);
+      }, 1000);
     })
     .catch(err => {
       console.log(err);
@@ -102,6 +108,12 @@ export const loginUser = ({
       });
 
       showToast('Амжилттай нэвтэрлээ');
+      setTimeout(() => {
+        dispatch({
+          type: Notication.UPDATE_COUNT,
+          payload: res.payload.user.unseen,
+        });
+      }, 1000);
       // onSuccess();
     })
     .catch(err => {

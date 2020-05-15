@@ -11,8 +11,16 @@ export const Auth = {
   UPDATE_INTERESTED: 'auth/UPDATE_INTERESTED',
   LOG_OUT: 'auth/LOG_OUT',
 };
+
+export const EVENT = {
+  SET_EVENT_DATA: 'SET_EVENT_DATA',
+  ADD_EVENT_DATA: 'ADD_EVENT_DATA',
+};
 export const Notication = {
   RECEIVE_NEW: 'notif/RECEIVE_NEW',
   SEEN: 'notif/SEEN',
   UPDATE_COUNT: 'notif/UPDATE_COUNT',
+};
+export const MAIN = {
+  SET_CATEGORIES: 'SET_CATEGORIES',
 };

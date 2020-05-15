@@ -1,7 +1,14 @@
 import React from 'react';
 import {connect} from 'react-redux';
 // import {withNavigationFocus} from 'react-navigation';
-import {View, FlatList, StyleSheet, PanResponder} from 'react-native';
+import {
+  View,
+  FlatList,
+  StyleSheet,
+  PanResponder,
+  RefreshControl,
+  Alert,
+} from 'react-native';
 import SearchBlock from '../components/SearchBlock';
 import EventHorizontalScroll from '../components/EventComponents/EventHorizontalScroll';
 import MovieSearchResults from '../components/EventComponents/EventSearchResults';
@@ -16,13 +23,13 @@ import Theme from '../Theme';
 
 const BROWSE_SECTIONS = [
   {
-    title: 'Спорт',
+    title: 'Мэдээллийн технологи',
     fetchFunction: getFetchFunction(getSportEventUrl),
   },
-  {
-    title: 'Дуу хөгжим',
-    fetchFunction: getFetchFunction(getMusicEventUrl),
-  },
+  // {
+  //   title: 'Дуу хөгжим',
+  //   fetchFunction: getFetchFunction(getMusicEventUrl),
+  // },
   // {
   //   title: 'Trending Weekly',
   //   fetchFunction: getFetchFunction(getTrendingWeeklyMoviesUrl),
@@ -34,7 +41,8 @@ const BROWSE_SECTIONS = [
 class Browse extends React.Component {
   constructor(props) {
     super(props);
-
+    console.log('categories');
+    console.log(props.categories);
     const sectionsEvents = BROWSE_SECTIONS.reduce((obj, section) => {
       obj[section.title] = []; // eslint-disable-line
       return obj;
@@ -43,6 +51,7 @@ class Browse extends React.Component {
     this.state = {
       isInitialSearch: true,
       isSearchBlockFocused: false,
+      refreshing: false,
       searchResultsFetchFunction: getSearchFetchFunctionFromQuery(''),
       searchText: '',
       sectionsEvents,
@@ -57,8 +66,10 @@ class Browse extends React.Component {
 
     if (this.props.isGuest)
       setTimeout(() => {
-        alert(
-          'Хэрвээ та системд бүргүүлэж хэрэглэгч болсоноор илүү их боломжыг хүртэх болно. Таньд амжилт хүсье  ',
+        Alert.alert(
+          'WHERNAT',
+          'Хэрвээ та системд бүргүүлэж хэрэглэгч болсоноор илүү их боломжыг хүртэх болно. Таньд амжилт хүсье',
+          [{text: 'OK'}],
         );
       }, 3000);
   }
@@ -117,13 +128,32 @@ class Browse extends React.Component {
       />
     );
   };
-
+  refresh = () => {
+    this.setState({refreshing: true}, () => {
+      this.initialSectionsFetch();
+      setTimeout(() => {
+        this.setState({
+          refreshing: false,
+        });
+      }, 1000);
+    });
+  };
   renderBrowseSections() {
     const {sectionsEvents} = this.state;
     const keyExtractor = section => section.title;
 
     return (
       <FlatList
+        refreshControl={
+          <RefreshControl
+            title="Шинэчлэгдэж байна"
+            titleColor="white"
+            colors="white"
+            tintColor="white"
+            refreshing={this.state.refreshing}
+            onRefresh={() => this.refresh()}
+          />
+        }
         data={BROWSE_SECTIONS}
         extraData={sectionsEvents}
         keyExtractor={keyExtractor}
@@ -181,7 +211,11 @@ const styles = StyleSheet.create({
   },
 });
 
-const mapStateToProps = ({auth}) => ({user: auth.user, isGuest: auth.isGuest});
+const mapStateToProps = ({auth, main}) => ({
+  user: auth.user,
+  isGuest: auth.isGuest,
+  categories: main.categories,
+});
 
 export default connect(
   mapStateToProps,

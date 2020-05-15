@@ -12,6 +12,11 @@ export default (state = INITIAL_STATE, action) => {
         ...state,
         unreadMessagesCount: action.payload,
       };
+    case Notication.SEEN:
+      return {
+        ...state,
+        unreadMessagesCount: 0,
+      };
     default:
       return {...state};
   }

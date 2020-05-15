@@ -31,7 +31,7 @@ class EventPreview extends React.PureComponent {
       ? FastImage.priority.high
       : FastImage.priority.normal;
     return (
-      <>
+      <View>
         <FastImage
           style={styles.image}
           source={{
@@ -48,7 +48,7 @@ class EventPreview extends React.PureComponent {
             interested={false}
           />
         </View>
-      </>
+      </View>
     );
   }
 

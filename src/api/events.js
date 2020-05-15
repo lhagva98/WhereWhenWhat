@@ -16,6 +16,8 @@ import {
   getPopularEventsUrl,
   ChangeStatusInterested,
   GetMyInterestedEvents,
+  GetMyNotications,
+  SEEN_NOTIF,
 } from '../api/urls';
 import {parseEventsArray} from '../utils/events';
 import Config from '../Config';
@@ -70,6 +72,12 @@ export const fetchEventRecommendations = ({Event, page = 1}, reqParams = {}) =>
 // ------------------------------------------------------
 export const getMyInterestedEvents = () => {
   return fetchHandler(GetMyInterestedEvents, {
+    method: 'get',
+    headers: headers(true),
+  });
+};
+export const getMyNotification = () => {
+  return fetchHandler(GetMyNotications, {
     method: 'get',
     headers: headers(true),
   });
@@ -258,6 +266,13 @@ export const fetchEventToExplore = isEventSeen =>
       reject(error);
     }
   });
+
+export const seenNotif = () => {
+  return fetchHandler(SEEN_NOTIF, {
+    method: 'get',
+    headers: headers(true),
+  });
+};
 
 // Local functions
 const addParsedEventsToData = data =>

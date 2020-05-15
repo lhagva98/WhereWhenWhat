@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
   headerWrapper: {
     flex: 1,
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    // justifyContent: 'space-between',
     alignItems: 'center',
     // marginTop: Theme.specifications.statusBarHeight,
   },
@@ -65,7 +65,10 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    // position: 'absolute',
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    zIndex: -1,
     // left: '30%',
   },
   rightContainer: {

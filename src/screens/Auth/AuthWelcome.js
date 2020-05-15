@@ -10,7 +10,6 @@ import {createGuest} from '../../actions';
 import RouteNames from '../../RouteNames';
 import Theme from '../../Theme';
 const WELCOME_IMAGES = [
-  require('../../assets/img/welcome_background_images/jurassic_world.jpg'),
   // require('../../assets/img/welcome_background_images/spider_man.jpg'),
   // require('../../assets/img/welcome_background_images/shutter_island.jpg'),
   // require('../../assets/img/welcome_background_images/bumblebee.jpg'),

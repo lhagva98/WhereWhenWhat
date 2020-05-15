@@ -27,7 +27,7 @@ class Explore extends React.Component {
           <GuestInfo />
         ) : (
           <View style={{flex: 1}}>
-            <MyInterestedEvent />
+            <MyInterestedEvent navigation={this.props.navigation} />
           </View>
         )}
       </View>

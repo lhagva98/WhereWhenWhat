@@ -1,9 +1,10 @@
 import axios from 'axios';
-import {LOGIN_URL, SIGNUP_URL, USER_INFO} from '../api/urls';
+import {LOGIN_URL, SIGNUP_URL, USER_INFO, SEEN_NOTIF} from '../api/urls';
 import Config from '../Config';
 import chest from '../api/chest';
 import fetchHandler from '../network/fetchHandler';
 import headers from '../api/headers';
+
 export const login = data => {
   console.log(LOGIN_URL);
   console.log(data);

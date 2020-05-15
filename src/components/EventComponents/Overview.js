@@ -16,7 +16,7 @@ class OverView extends React.Component {
         {/* <EventUserScore style={styles.score} event={event} />
         <AppText style={styles.month}>{getMonthName(month)}</AppText>
         <AppText style={styles.day}>{day}</AppText> */}
-        <View style={styles.seperator}></View>
+        {/* <View style={styles.seperator}></View> */}
       </View>
     );
   }
