@@ -17,16 +17,15 @@ class TimeAndShortAddress extends React.Component {
           <AppText style={styles.time}>
             {formatDate(event.time[0], 'h:m')}
           </AppText>
-          <AppText style={styles.shortAddress}>{event.shortAddress}</AppText>
-        </View>
-        <View style={{flexDirection: 'row', alignItems: 'center'}}>
-          {getTimeIcon()}
-
-          <AppText>
-            {'  '}
-            {event.duration}
+          <AppText style={styles.shortAddress}>
+            {event.shortAddress} {getTimeIcon()} {event.duration}
           </AppText>
         </View>
+        {/* <View style={{flexDirection: 'row', alignItems: 'center'}}>
+        
+
+          <AppText>{'  '}</AppText>
+        </View> */}
 
         <View>
           <AppText>{event.company}</AppText>
