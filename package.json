@@ -18,7 +18,7 @@
     "@react-navigation/stack": "^5.2.6",
     "axios": "^0.19.2",
     "hoist-non-react-statics": "^3.3.2",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.21",
     "moment": "^2.25.3",
     "prop-types": "^15.7.2",
     "react": "16.9.0",
